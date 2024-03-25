@@ -1,7 +1,7 @@
 import { Roboto, Open_Sans } from "next/font/google";
 import "./globals.css";
 import HeaderMain from "./components/HeaderMain";
-import NavigationMain from "./components/NavigationMain";
+import SidebarMenu from "./components/SidebarMenu";
 import Context from "./context/context";
 
 const roboto = Roboto({
@@ -28,9 +28,9 @@ export default function RootLayout({ children }) {
       <body>
         <Context>
           <HeaderMain />
-          <main className=" grid grid-cols-[minmax(0,_300px)_1fr] h-svh">
-            <NavigationMain />
-            <div className="py-4 px-8">{children}</div>
+          <main className=" grid grid-cols-1 md:grid-cols-[minmax(0,_300px)_1fr] h-svh">
+            <SidebarMenu />
+            <section>{children}</section>
           </main>
         </Context>
       </body>
