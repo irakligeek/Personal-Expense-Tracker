@@ -23,6 +23,10 @@ module.exports = {
       },
     },
   },
-  variants: {},
+  variants: {
+    extend: {
+      padding: ['first', 'last'],
+    },
+  },
   plugins: [],
 }

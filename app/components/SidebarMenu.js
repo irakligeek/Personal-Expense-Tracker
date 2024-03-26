@@ -4,6 +4,7 @@ import SideBarMenuItem from "./UI/NavItem";
 import { useContext } from "react";
 import { HeaderContext } from "../context/context";
 import { IoCloseOutline } from "react-icons/io5";
+import CloseButton from "./UI/CloseButton";
 
 export default function SidebarMenu() {
   // We need to use header context here to toggle the mobile menu
@@ -19,16 +20,12 @@ export default function SidebarMenu() {
        isMobileMenuOpen ? "translate-x-0" : "translate-x-[-280px]"
      }`}
       >
-        <button
-          className="block md:hidden border border-zinc-200 p-2 absolute top-4 right-4"
-          onClick={() => setMobileMenuOpen(false)}
-        >
-          <IoCloseOutline className="text-xl" />
-        </button>
+        <CloseButton onClick={() => setMobileMenuOpen(false)}/>
+          
         <ul className="flex flex-col gap-8">
           <SideBarMenuItem link="/">Home</SideBarMenuItem>
-          <SideBarMenuItem link="/user/settings">Settings</SideBarMenuItem>
-          <SideBarMenuItem link="/user/reports">Expenses</SideBarMenuItem>
+          <SideBarMenuItem link="/settings">Settings</SideBarMenuItem>
+          <SideBarMenuItem link="/reports">Expenses</SideBarMenuItem>
         </ul>
       </nav>
     </>
