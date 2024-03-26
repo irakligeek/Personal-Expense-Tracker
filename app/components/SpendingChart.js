@@ -1,5 +1,5 @@
 "use client";
-import { spendingCategories, getSpendingAmountByCategory } from "../(dashboard)/lib";
+import { spendingCategories, getSpendingAmountByCategoryAndMonth } from "../(dashboard)/lib";
 import { PieChart } from "react-minimal-pie-chart"; //https://www.npmjs.com/package/react-minimal-pie-chart
 
 
@@ -11,7 +11,7 @@ export default function SpendingChart() {
       const catName = Object.values(category)[0];
       return {
         title: catName,
-        value: +getSpendingAmountByCategory(catName, new Date().getMonth() + 1).amount,
+        value: +getSpendingAmountByCategoryAndMonth(catName, new Date().getMonth() + 1).amount,
         color: category.color,
       };
     })
@@ -19,7 +19,7 @@ export default function SpendingChart() {
 
   return (
 
-    <div className=" max-w-96">
+    <div className="max-w-96">
       <PieChart
         data={chartData}
         lineWidth={60}

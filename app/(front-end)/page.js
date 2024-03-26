@@ -1,12 +1,12 @@
 import {
   spendingCategories,
-  getSpendingAmountByCategory,
+  getSpendingAmountByCategoryAndMonth,
   formatUSD,
 } from "../(dashboard)/lib";
 import Divider from "../components/UI/Divider";
-import SpendingByCategory from "../components/SpendingByCategory";
 import SpendingChart from "../components/SpendingChart";
 import Section from "../components/UI/Section";
+import SpendingsTable from "../components/SpendingsTable";
 
 export default function Home() {
   const date = new Date();
@@ -24,7 +24,7 @@ export default function Home() {
       return {
         title: catName,
         color: category.color,
-        value: +getSpendingAmountByCategory(catName, new Date().getMonth() + 1)
+        value: +getSpendingAmountByCategoryAndMonth(catName, new Date().getMonth() + 1)
           .amount,
       };
     })
@@ -67,18 +67,9 @@ export default function Home() {
       </Section>
       <Divider />
 
+            <SpendingsTable />
       {/* Spending categories */}
-      <Section classes="max-w-2xl">
-        <h4 className="text-secondary pb-8">Your spending by categories</h4>
-        {spendingCategories.map((category, index) => (
-          <SpendingByCategory
-            key={category.id}
-            category={category}
-            amount="$34.5"
-            index={category.id}
-          />
-        ))}
-      </Section>
+      
     </>
   );
 }
