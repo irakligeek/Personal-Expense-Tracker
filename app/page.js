@@ -2,11 +2,12 @@ import {
   spendingCategories,
   getSpendingAmountByCategoryAndMonth,
   formatUSD,
-} from "../(dashboard)/lib";
-import Divider from "../components/UI/Divider";
-import SpendingChart from "../components/SpendingChart";
-import Section from "../components/UI/Section";
-import SpendingsTable from "../components/SpendingsTable";
+} from "./(dashboard)/lib";
+import Divider from "./components/UI/Divider";
+import SpendingChart from "./components/SpendingChart";
+import Section from "./components/UI/Section";
+import SpendingsTable from "./components/SpendingsTable";
+import HeadingMain from "./components/UI/HeadingMain";
 
 export default function Home() {
   const date = new Date();
@@ -24,8 +25,10 @@ export default function Home() {
       return {
         title: catName,
         color: category.color,
-        value: +getSpendingAmountByCategoryAndMonth(catName, new Date().getMonth() + 1)
-          .amount,
+        value: +getSpendingAmountByCategoryAndMonth(
+          catName,
+          new Date().getMonth() + 1
+        ).amount,
       };
     })
     .filter((category) => category.value > 0)
@@ -33,15 +36,12 @@ export default function Home() {
 
   return (
     <>
-      {/* Heading with pie chart of current month's spending */}
       <Section classes="flex flex-col max-w-2xl">
         {/* <div className="pb-4 text-zinc-500 self-end flex items-center gap-1"> */}
-          {/* <MdOutlineCalendarMonth /> */}
-          {/* {formattedDate} */}
+        {/* <MdOutlineCalendarMonth /> */}
+        {/* {formattedDate} */}
         {/* </div> */}
-        <h4 className="mb-8 text-secondary">
-          Your total spending for {currentMonth}
-        </h4>
+        <HeadingMain>Your total spending for {currentMonth}</HeadingMain>
 
         <div className="flex flex-row justify-between flex-wrap gap-6 md:gap-8">
           <SpendingChart />
@@ -66,10 +66,7 @@ export default function Home() {
         </div>
       </Section>
       <Divider />
-
-            <SpendingsTable />
-      {/* Spending categories */}
-      
+      <SpendingsTable />
     </>
   );
 }
