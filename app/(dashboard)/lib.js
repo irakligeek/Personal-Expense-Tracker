@@ -14,9 +14,9 @@ export const spendingCategories = [
 ];
 
 //This will be pulled from teh database
-const monthlySpendings = [
+export const monthlySpendings = [
   { name: "Groceries", amount: "64.5" },
-  { name: "Rent", amount: "222.5" },
+  { name: "Rent", amount: "100.5" },
   { name: "Utilities", amount: "254.5" },
   { name: "Transportation", amount: "134.8" },
   { name: "Health", amount: "94.2" },
@@ -27,6 +27,9 @@ const monthlySpendings = [
   { name: "Travel", amount: "44.5" },
   { name: "Food & Drinks", amount: "402.1" },
 ];
+
+//This will be pulled from the database, added by the user 
+export const totalSpendingIncome = '5000';
 
 //Gets the months of the current year up to the current month, with month number as key
 // and month name as value
