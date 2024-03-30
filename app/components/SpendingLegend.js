@@ -1,4 +1,4 @@
-import { formatUSD } from "../(dashboard)/lib";
+import { formatUSD } from "../(dashboard)/lib/utils";
 export default function SpendingLegend({spendingData}) {
   return (
     <ul>

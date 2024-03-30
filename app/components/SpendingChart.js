@@ -2,8 +2,8 @@
 import {
   spendingCategories,
   getSpendingAmountByCategoryAndMonth,
-  formatUSD,
-} from "../(dashboard)/lib";
+} from "../(dashboard)/lib/lib";
+import { formatUSD } from "../(dashboard)/lib/utils";
 import { PieChart } from "react-minimal-pie-chart"; //https://www.npmjs.com/package/react-minimal-pie-chart
 
 // This component will render a pie chart of the user's spending by category,

@@ -1,11 +1,10 @@
-// import Divider from "./UI/Divider";
 "use client";
 import { useState } from "react";
 import {
   getSpendingAmountByCategoryAndMonth,
-  formatUSD,
   getCategoryColor,
-} from "../(dashboard)/lib";
+} from "../(dashboard)/lib/lib";
+import { formatUSD } from "../(dashboard)/lib/utils";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import SpendingBreakdown from "./SpendingBreakdown";
 
@@ -41,7 +40,11 @@ export default function SpendingByCategory({ category, amount, index }) {
           <span className="flex items-center gap-2 text-left">
             {category}
             <span>
-              <MdOutlineKeyboardArrowDown className={` transition-all text-xl ${spendingDetailsOpen ? 'rotate-0' : '-rotate-90'}`} />
+              <MdOutlineKeyboardArrowDown
+                className={` transition-all text-xl ${
+                  spendingDetailsOpen ? "rotate-0" : "-rotate-90"
+                }`}
+              />
             </span>
           </span>
         </button>
@@ -51,11 +54,7 @@ export default function SpendingByCategory({ category, amount, index }) {
       </div>
 
       {/* Spenging breakdown by name */}
-      {spendingDetailsOpen && (
-        <div className="w-full bg-zinc-100 p-4">
-          <SpendingBreakdown/>
-        </div>
-      )}
+      {spendingDetailsOpen && <SpendingBreakdown category={category} />}
     </>
   );
 }

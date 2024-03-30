@@ -1,7 +1,6 @@
 import {
-  spendingCategories,
   getSpendingAmountByCategoryAndMonth,
-} from "../(dashboard)/lib";
+} from "../(dashboard)/lib/lib";
 import Section from "./UI/Section";
 import SpendingByCategory from "./SpendingByCategory";
 import HeadingMain from "./UI/HeadingMain";

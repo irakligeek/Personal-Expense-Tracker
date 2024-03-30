@@ -48,9 +48,10 @@ export const getMonthsOfCurrentYear = () => {
 
 // Get the user's spending by month, and/or by category
 //passing category as a string and a month number as a parameter
-export const getSpendingAmountByCategoryAndMonth = (category, month) => {
+export const getSpendingAmountByCategoryAndMonth = (category, month, year) => {
   category = category || null;
   month = month || null;
+  year = year || new Date().getFullYear();
 
   if (category) {
     const selectedCategory = monthlySpendings.filter((spending) => {
@@ -64,16 +65,20 @@ export const getSpendingAmountByCategoryAndMonth = (category, month) => {
   }
 };
 
-
-// This will be used to format the spending amount as USD
-export const formatUSD = (value) => {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-  }).format(value);
-};
-
-
 export const getCategoryColor = (category) => {
   return spendingCategories.filter((cat) => cat.name.toLowerCase() === category.toLowerCase())[0].color;
+}
+
+// Get the user's spending details by category, month, and year, this will be pulled from the database
+export const spendingDetails = (category, month, year) => {
+  month = month || new Date().getMonth() + 1;
+  year = year || new Date().getFullYear();
+
+  const details = [
+    {name: 'buy medicine', amount: 35, date: 'Mar 28, 2024'},
+    {name: 'buy medicine', amount: 45, date: 'Mar 20, 2024'},
+    {name: 'Grab drinks', amount: 120, date: 'Feb 27 2024'},
+  ];
+
+  return details;
 }
