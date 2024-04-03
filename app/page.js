@@ -1,9 +1,3 @@
-import {
-  spendingCategories,
-  getSpendingAmountByCategoryAndMonth,
-  monthlySpendings,
-  getCategoryColor,
-} from "./(dashboard)/lib/lib";
 import SpendingBarInfo from "./components/SpendingBarInfo";
 import Divider from "./components/UI/Divider";
 import SpendingChart from "./components/SpendingChart";
@@ -11,31 +5,53 @@ import Section from "./components/UI/Section";
 import SpendingsTable from "./components/SpendingsTable";
 import HeadingMain from "./components/UI/HeadingMain";
 import SpendingLegend from "./components/SpendingLegend";
+import { getCurrentMonthDates } from "./(dashboard)/lib/lib";
+import { getSpendingsByCategory } from "./(dashboard)/lib/lib";
 
-export default function Home() {
-  const formattedDate = new Date().toLocaleString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  });
 
+export default async function Home() {
   const currentMonth = new Date().toLocaleString("en-US", { month: "long" });
+  let noSpendingsInfo = false;
 
-  const spendingData = monthlySpendings
-    .map((spending) => {
-      return {
-        title: spending.name,
-        value: +spending.amount,
-        color: getCategoryColor(spending.name),
-      };
-    })
-    .filter((category) => category.value > 0)
-    .sort((a, b) => b.value - a.value);
+  async function fetchSpendings(start, end) {
+    
+    try {
+      const response = await fetch(
+        `${process.env.BASE_URL}/api/expenses?date_start=${start}&date_end=${end}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          next: { revalidate: 1 }, //@todo, remove this in prod. For testing ONLY
+        }
+      );
 
-  const totalSpending = spendingData.reduce(
-    (total, item) => total + item.value,
-    0
-  );
+      const spendings = await response.json();
+
+      return spendings;
+    } catch (error) {
+      console.error("Error", error);
+    }
+  }
+
+  const spendings = await fetchSpendings(...getCurrentMonthDates());
+
+  let totalMonthlySpendings = [];
+  let totalSpending = 0;
+  let allSpending = false;
+
+  if (spendings && spendings?.result && spendings.result.length > 0) {
+    allSpending = spendings.result;
+    
+    totalMonthlySpendings = getSpendingsByCategory(spendings.result);
+
+    totalSpending = totalMonthlySpendings
+      .reduce((total, item) => total + parseFloat(item.amount), 0)
+      .toFixed(2);
+  } else {
+    noSpendingsInfo = "No spendings found for this month";
+  }
 
   return (
     <>
@@ -43,13 +59,18 @@ export default function Home() {
         <HeadingMain>Your total spending for {currentMonth}</HeadingMain>
 
         <div className="flex flex-row justify-between flex-wrap gap-6 md:gap-8">
-          <SpendingChart month={currentMonth} totalSpending={totalSpending} />
-          <SpendingLegend spendingData={spendingData} />
+          <SpendingChart
+            month={currentMonth}
+            spendingData={totalMonthlySpendings}
+            totalSpending={totalSpending}
+          />
+
+          <SpendingLegend spendingData={totalMonthlySpendings} />
         </div>
         <SpendingBarInfo totalSpending={totalSpending} />
       </Section>
       <Divider />
-      <SpendingsTable />
+      <SpendingsTable spendingByCategory={totalMonthlySpendings} spendings={allSpending} />
     </>
   );
 }

@@ -1,13 +1,12 @@
-import {
-  getSpendingAmountByCategoryAndMonth,
-} from "../(dashboard)/lib/lib";
+
 import Section from "./UI/Section";
 import SpendingByCategory from "./SpendingByCategory";
 import HeadingMain from "./UI/HeadingMain";
-export default function SpendingsTable() {
+export default function SpendingsTable({ spendingByCategory, spendings }) {
+  
   return (
     <Section classes="max-w-2xl">
-        <HeadingMain>Your spending by categories</HeadingMain>
+      <HeadingMain>Your spending by categories</HeadingMain>
       <div
         className={`border-b border-zinc-200 last:border-none flex justify-between 
         py-4 mb-4 text-sm text-secondary`}
@@ -23,18 +22,19 @@ export default function SpendingsTable() {
         </div>
       </div>
 
-      {getSpendingAmountByCategoryAndMonth(null, new Date().getMonth() + 1)
+      {spendingByCategory
         .sort((a, b) => b.amount - a.amount)
         .filter((category) => category.amount > 0)
-        .map((category, index) => (
+        .map((data, index) => (
           <SpendingByCategory
             key={index}
-            category={category.name}
-            amount={category.amount}
+            category={data.name}
+            amount={data.amount}
             index={index}
+            spendingByCategories={spendingByCategory}
+            spendings = {spendings}
           />
         ))}
-
     </Section>
   );
 }

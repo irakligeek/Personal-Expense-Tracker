@@ -1,3 +1,6 @@
+import { getUserSettings } from "./db_queries";
+const userId = "ika05010"; //This will be passed coming from the login session
+
 //This will be added by the user to categorize their spending
 export const spendingCategories = [
   { name: "Groceries", id: 1, color: "#275cb2" },
@@ -13,23 +16,21 @@ export const spendingCategories = [
   { name: "Food & Drinks", id: 14, color: "#387e6f" },
 ];
 
-//This will be pulled from teh database
-export const monthlySpendings = [
-  { name: "Groceries", amount: "64.5" },
-  { name: "Rent", amount: "100.5" },
-  { name: "Utilities", amount: "254.5" },
-  { name: "Transportation", amount: "134.8" },
-  { name: "Health", amount: "94.2" },
-  { name: "Entertainment", amount: "13.5" },
-  { name: "Shopping", amount: "310.5" },
-  { name: "Other", amount: "0.00" },
-  { name: "Car", amount: "54.5" },
-  { name: "Travel", amount: "44.5" },
-  { name: "Food & Drinks", amount: "402.1" },
-];
 
-//This will be pulled from the database, added by the user 
-export const totalSpendingIncome = '5000';
+//This will be pulled from the database, added by the user
+export const totalSpendingIncome = async () => {
+  try {
+    const settings = await getUserSettings(userId);
+    if (!settings) {
+      throw new Error(`No settings found for user ${userId}`);
+    }
+    return settings?.monthly_budget;
+  } catch (error) {
+    console.error("Error occurred in totalSpendingIncome: ", error);
+    // You can decide what to return in case of error
+    return null;
+  }
+};
 
 //Gets the months of the current year up to the current month, with month number as key
 // and month name as value
@@ -46,28 +47,13 @@ export const getMonthsOfCurrentYear = () => {
   return months;
 };
 
-// Get the user's spending by month, and/or by category
-//passing category as a string and a month number as a parameter
-export const getSpendingAmountByCategoryAndMonth = (category, month, year) => {
-  category = category || null;
-  month = month || null;
-  year = year || new Date().getFullYear();
 
-  if (category) {
-    const selectedCategory = monthlySpendings.filter((spending) => {
-      return spending.name.toLowerCase() === category.toLowerCase();
-    });
-    return selectedCategory && selectedCategory.length > 0
-      ? selectedCategory[0]
-      : monthlySpendings;
-  } else {
-    return monthlySpendings;
-  }
-};
-
+//@todo Get this data from the database
 export const getCategoryColor = (category) => {
-  return spendingCategories.filter((cat) => cat.name.toLowerCase() === category.toLowerCase())[0].color;
-}
+  return spendingCategories.filter(
+    (cat) => cat.name.toLowerCase() === category.toLowerCase()
+  )[0].color;
+};
 
 // Get the user's spending details by category, month, and year, this will be pulled from the database
 export const spendingDetails = (category, month, year) => {
@@ -75,10 +61,47 @@ export const spendingDetails = (category, month, year) => {
   year = year || new Date().getFullYear();
 
   const details = [
-    {name: 'buy medicine', amount: 35, date: 'Mar 28, 2024'},
-    {name: 'buy medicine', amount: 45, date: 'Mar 20, 2024'},
-    {name: 'Grab drinks', amount: 120, date: 'Feb 27 2024'},
+    { name: "buy medicine", amount: 35, date: "Mar 28, 2024" },
+    { name: "buy medicine", amount: 45, date: "Mar 20, 2024" },
+    { name: "Grab drinks", amount: 120, date: "Feb 27 2024" },
   ];
 
   return details;
-}
+};
+
+// Get the current month's start and end dates
+export const getCurrentMonthDates = () => {
+  const date = new Date();
+  const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+  const lastDayOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+
+  const startDate = firstDayOfMonth.toISOString().split("T")[0];
+  const endDate = lastDayOfMonth.toISOString().split("T")[0];
+
+  return [startDate, endDate];
+};
+
+// Get the user's spending by category summing up all category spendings
+export const getSpendingsByCategory = (spendings) => {
+  const combinedSpendings = spendings.reduce((acc, spending) => {
+    const existingCategory = acc.find(
+      (item) => item.name.toLowerCase() === spending.category.toLowerCase()
+    );
+
+    if (existingCategory) {
+      existingCategory.amount = (
+        parseFloat(existingCategory.amount) + parseFloat(spending.amount)
+      ).toFixed(2);
+    } else {
+      acc.push({
+        name: spending.category,
+        amount: parseFloat(spending.amount).toFixed(2),
+        color: getCategoryColor(spending.category),
+      });
+    }
+
+    return acc;
+  }, []);
+
+  return combinedSpendings;
+};

@@ -13,7 +13,7 @@ export default function SpendingLegend({spendingData}) {
               className={`w-6 h-6 inline-block mr-2`}
             ></span>
             <span>
-              <b>{category.title}</b>: {formatUSD(category.value)}
+              <b>{category.name}</b>: {formatUSD(category.amount)}
             </span>
           </li>
         );

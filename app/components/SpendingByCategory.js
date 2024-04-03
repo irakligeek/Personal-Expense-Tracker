@@ -1,23 +1,28 @@
 "use client";
 import { useState } from "react";
 import {
-  getSpendingAmountByCategoryAndMonth,
   getCategoryColor,
 } from "../(dashboard)/lib/lib";
 import { formatUSD } from "../(dashboard)/lib/utils";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import SpendingBreakdown from "./SpendingBreakdown";
 
-export default function SpendingByCategory({ category, amount, index }) {
+export default function SpendingByCategory({
+  spendingByCategories,
+  category,
+  amount,
+  index,
+  spendings
+}) {
   const [spendingDetailsOpen, setSpendingDetailsOpen] = useState(false);
-  const totalMonthlySpendings = getSpendingAmountByCategoryAndMonth(
-    null,
-    new Date().getMonth() + 1
-  ).reduce((acc, curr) => {
+
+  const totalAmount = spendingByCategories.reduce((acc, curr) => {
     return acc + +curr.amount;
   }, 0);
 
-  const percentage = ((+amount / totalMonthlySpendings) * 100).toFixed(2); // calculate percentage and round to 2 decimal places
+  const percentage = ((+amount / totalAmount) * 100).toFixed(2); // calculate percentage and round to 2 decimal places
+
+  const spendingDetails = spendings.filter((spending) => spending.category === category);
 
   return (
     <>
@@ -53,8 +58,7 @@ export default function SpendingByCategory({ category, amount, index }) {
         <div className=" self-end text-sm justify-self-end">{percentage}%</div>
       </div>
 
-      {/* Spenging breakdown by name */}
-      {spendingDetailsOpen && <SpendingBreakdown category={category} />}
+      {spendingDetailsOpen && <SpendingBreakdown spendingDetails={spendingDetails} />}
     </>
   );
 }

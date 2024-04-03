@@ -1,10 +1,8 @@
 import { formatUSD } from "../(dashboard)/lib/utils";
 import { totalSpendingIncome } from "../(dashboard)/lib/lib";
-export default function SpendingBarInfo({ totalSpending }) {
-
-  const percentageSpent = ((totalSpending / totalSpendingIncome) * 100).toFixed(
-    2
-  );
+export default async function SpendingBarInfo({ totalSpending }) {
+  const monthlyBudget = await totalSpendingIncome();
+  const percentageSpent = ((totalSpending / monthlyBudget) * 100).toFixed(2);
   const percentageSpentRound = Math.ceil(percentageSpent);
 
   let spendingBarBGcolor = "#1976D2";
@@ -15,7 +13,7 @@ export default function SpendingBarInfo({ totalSpending }) {
   } else if (percentageSpentRound > 89) {
     spendingBarBGcolor = "#FF4500";
   }
-  // This component will render a list of the user's spending by category
+
   return (
     <div>
       <div className="text-xs text-zinc-500 mb-2">
@@ -31,7 +29,8 @@ export default function SpendingBarInfo({ totalSpending }) {
         ></div>
       </div>
       <div>
-        {formatUSD(totalSpending)} of {formatUSD(totalSpendingIncome)} spent
+        {formatUSD(Math.ceil(totalSpending))} of{" "}
+        {formatUSD(Math.ceil(monthlyBudget))} spent
       </div>
     </div>
   );
