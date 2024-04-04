@@ -1,18 +1,32 @@
 "use client";
 import { formatUSD } from "../(dashboard)/lib/utils";
 import { PieChart } from "react-minimal-pie-chart"; //https://www.npmjs.com/package/react-minimal-pie-chart
+import { getSpendingsByCategory } from "../(dashboard)/lib/lib";
+import { UserSettings } from "../context/userContext";
+import { useContext } from "react";
 
 // This component will render a pie chart of the user's spending by category,
 //filtering out categories with no spending
-export default function SpendingChart({ month, spendingData, totalSpending }) {
-  // const monthNum = new Date(month + " 1, 2000");
-  const chartData = spendingData.map((data) => {
+export default function SpendingChart({ month, monthylSpendingData }) {
+  const { settings } = useContext(UserSettings);
+  const userCategories = settings.categories;
+
+  const totalMonthlySpendings = getSpendingsByCategory(monthylSpendingData);
+  const chartData = totalMonthlySpendings.map((data) => {
+    const color = userCategories.find(
+      (item) => item.name.toLowerCase() === data.name.toLowerCase()
+    )?.color;
+
     return {
       title: data.name,
       value: parseFloat(data.amount),
-      color: data.color,
+      color: color || "#000",
     };
   });
+
+  const totalSpending = totalMonthlySpendings
+    .reduce((total, item) => total + parseFloat(item.amount), 0)
+    .toFixed(2);
 
   return (
     <div className="max-w-96 relative">

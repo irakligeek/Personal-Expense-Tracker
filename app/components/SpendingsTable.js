@@ -1,9 +1,11 @@
-
+"use client";
 import Section from "./UI/Section";
 import SpendingByCategory from "./SpendingByCategory";
 import HeadingMain from "./UI/HeadingMain";
-export default function SpendingsTable({ spendingByCategory, spendings }) {
-  
+import { getSpendingsByCategory } from "../(dashboard)/lib/lib";
+export default function SpendingsTable({ spendings }) {
+  const spendingsByCategory = getSpendingsByCategory(spendings);
+
   return (
     <Section classes="max-w-2xl">
       <HeadingMain>Your spending by categories</HeadingMain>
@@ -22,7 +24,7 @@ export default function SpendingsTable({ spendingByCategory, spendings }) {
         </div>
       </div>
 
-      {spendingByCategory
+      {spendingsByCategory
         .sort((a, b) => b.amount - a.amount)
         .filter((category) => category.amount > 0)
         .map((data, index) => (
@@ -31,8 +33,8 @@ export default function SpendingsTable({ spendingByCategory, spendings }) {
             category={data.name}
             amount={data.amount}
             index={index}
-            spendingByCategories={spendingByCategory}
-            spendings = {spendings}
+            spendingByCategories={spendingsByCategory}
+            spendings={spendings}
           />
         ))}
     </Section>

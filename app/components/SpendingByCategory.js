@@ -1,19 +1,26 @@
 "use client";
 import { useState } from "react";
-import {
-  getCategoryColor,
-} from "../(dashboard)/lib/lib";
 import { formatUSD } from "../(dashboard)/lib/utils";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import SpendingBreakdown from "./SpendingBreakdown";
+import { UserSettings } from "../context/userContext";
+import { useContext } from "react";
 
 export default function SpendingByCategory({
   spendingByCategories,
   category,
   amount,
   index,
-  spendings
+  spendings,
 }) {
+  const { settings } = useContext(UserSettings);
+
+  const userCategories = settings.categories;
+
+  const color = userCategories.find(
+    (item) => item.name.toLowerCase() === category.toLowerCase()
+  )?.color;
+
   const [spendingDetailsOpen, setSpendingDetailsOpen] = useState(false);
 
   const totalAmount = spendingByCategories.reduce((acc, curr) => {
@@ -22,7 +29,9 @@ export default function SpendingByCategory({
 
   const percentage = ((+amount / totalAmount) * 100).toFixed(2); // calculate percentage and round to 2 decimal places
 
-  const spendingDetails = spendings.filter((spending) => spending.category === category);
+  const spendingDetails = spendings.filter(
+    (spending) => spending.category === category
+  );
 
   return (
     <>
@@ -39,7 +48,7 @@ export default function SpendingByCategory({
           onClick={() => setSpendingDetailsOpen(!spendingDetailsOpen)}
         >
           <span
-            style={{ backgroundColor: getCategoryColor(category) }}
+            style={{ backgroundColor: color || "#000" }}
             className="w-6 h-6 block"
           ></span>
           <span className="flex items-center gap-2 text-left">
@@ -58,7 +67,9 @@ export default function SpendingByCategory({
         <div className=" self-end text-sm justify-self-end">{percentage}%</div>
       </div>
 
-      {spendingDetailsOpen && <SpendingBreakdown spendingDetails={spendingDetails} />}
+      {spendingDetailsOpen && (
+        <SpendingBreakdown spendingDetails={spendingDetails} />
+      )}
     </>
   );
 }
