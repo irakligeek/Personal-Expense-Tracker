@@ -32,6 +32,10 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+
+  .section-padding {
+    @apply px-4 py-5 sm:px-6; 
+  }
 }
 
 @layer base {

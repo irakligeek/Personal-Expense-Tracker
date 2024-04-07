@@ -1,17 +1,3 @@
-// Get the user's spending details by category, month, and year, this will be pulled from the database
-export const spendingDetails = (category, month, year) => {
-  month = month || new Date().getMonth() + 1;
-  year = year || new Date().getFullYear();
-
-  const details = [
-    { name: "buy medicine", amount: 35, date: "Mar 28, 2024" },
-    { name: "buy medicine", amount: 45, date: "Mar 20, 2024" },
-    { name: "Grab drinks", amount: 120, date: "Feb 27 2024" },
-  ];
-
-  return details;
-};
-
 // Get the current month's start and end dates
 export const getCurrentMonthDates = () => {
   const date = new Date();

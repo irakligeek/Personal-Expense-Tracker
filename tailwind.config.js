@@ -28,5 +28,5 @@ module.exports = {
       padding: ['first', 'last'],
     },
   },
-  plugins: [],
+  plugins: [require("tailwindcss-animate")],
 }

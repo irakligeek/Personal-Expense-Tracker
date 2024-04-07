@@ -1,14 +1,16 @@
 "use client";
-import Section from "./UI/Section";
+import Panel from "./ui/Panel";
 import SpendingByCategory from "./SpendingByCategory";
-import HeadingMain from "./UI/HeadingMain";
+import HeadingMain from "./ui/HeadingMain";
 import { getSpendingsByCategory } from "../(dashboard)/lib/lib";
+import Subheading from "./ui/Subheading";
 export default function SpendingsTable({ spendings }) {
   const spendingsByCategory = getSpendingsByCategory(spendings);
 
   return (
-    <Section classes="max-w-2xl">
-      <HeadingMain>Your spending by categories</HeadingMain>
+    <Panel classes="max-w-2xl">
+      <HeadingMain>Spendings by categories</HeadingMain>
+      <Subheading>Your spendings in details by category</Subheading>
       <div
         className={`border-b border-zinc-200 last:border-none flex justify-between 
         py-4 mb-4 text-sm text-secondary`}
@@ -37,6 +39,6 @@ export default function SpendingsTable({ spendings }) {
             spendings={spendings}
           />
         ))}
-    </Section>
+    </Panel>
   );
 }

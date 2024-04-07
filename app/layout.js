@@ -28,7 +28,7 @@ export default function RootLayout({ children }) {
       <body>
         <Context>
           <HeaderMain />
-          <main className=" grid grid-cols-1 md:grid-cols-[300px_1fr] h-svh">
+          <main className=" grid grid-cols-1 md:grid-cols-[300px_1fr] h-[calc(100svh_-_54px)]">
             <SidebarMenu />
             <section>{children}</section>
           </main>

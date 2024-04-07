@@ -1,13 +1,14 @@
 import SpendingBarInfo from "./components/SpendingBarInfo";
-import Divider from "./components/UI/Divider";
+import Divider from "./components/ui/Divider";
 import SpendingChart from "./components/SpendingChart";
-import Section from "./components/UI/Section";
+import Panel from "./components/ui/Panel";
 import SpendingsTable from "./components/SpendingsTable";
-import HeadingMain from "./components/UI/HeadingMain";
+import HeadingMain from "./components/ui/HeadingMain";
 import SpendingLegend from "./components/SpendingLegend";
 import { getCurrentMonthDates } from "./(dashboard)/lib/lib";
 import { getSpendingsByCategory } from "./(dashboard)/lib/lib";
 import UserSettingsCtx from "./context/userContext";
+import Subheading from "./components/ui/Subheading";
 export default async function Home() {
   const currentMonth = new Date().toLocaleString("en-US", { month: "long" });
   const base_ur = process.env.BASE_URL;
@@ -76,24 +77,29 @@ export default async function Home() {
 
   return (
     <UserSettingsCtx settings={settings}>
-      <Section classes="flex flex-col max-w-2xl">
-        <HeadingMain>Your total spending for {currentMonth}</HeadingMain>
+      <Panel classes="flex flex-col max-w-2xl">
+        <div className="section-padding border-b border-gray-200">
+          <HeadingMain>Total spending</HeadingMain>
+          <Subheading>Your spendings for the current month of {currentMonth}</Subheading>
 
-        <div className="flex flex-row justify-between flex-wrap gap-6 md:gap-8">
-          <SpendingChart
-            month={currentMonth}
-            monthylSpendingData={allSpending}
-          />
-          <SpendingLegend spendingData={totalMonthlySpendings} />
+          <div className="flex flex-row justify-between flex-wrap gap-6 md:gap-8">
+            <SpendingChart
+              month={currentMonth}
+              monthylSpendingData={allSpending}
+            />
+            <SpendingLegend spendingData={totalMonthlySpendings} />
+          </div>
+
+          <SpendingBarInfo totalSpending={totalSpending} />
         </div>
-        <SpendingBarInfo totalSpending={totalSpending} />
-      </Section>
-      <Divider />
 
-      <SpendingsTable
-        spendingsByCategory={totalMonthlySpendings}
-        spendings={allSpending}
-      />
+        <div className="section-padding">
+          <SpendingsTable
+            spendingsByCategory={totalMonthlySpendings}
+            spendings={allSpending}
+          />
+        </div>
+      </Panel>
     </UserSettingsCtx>
   );
 }
