@@ -1,11 +1,8 @@
 import { TailSpin } from "react-loading-icons";
-export default function Button({
-  children,
-  className,
-  variant,
-  loading,
-  ...props
-}) {
+import { useFormStatus } from "react-dom";
+
+export default function Button({ children, className, variant, ...props }) {
+  const { pending } = useFormStatus();
   const bg_color =
     variant === "ghost"
       ? "bg-transparent text-gray-900 border hover:bg-gray-100"
@@ -17,7 +14,7 @@ export default function Button({
        focus:outline-none focus:ring-2 focus:ring-offset-2 h-10`}
       {...props}
     >
-      {loading ? (
+      {pending ? (
         <span>
           <TailSpin className="w-full h-6" />
         </span>

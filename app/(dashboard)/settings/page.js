@@ -4,14 +4,25 @@ import Button from "./components/ui/Button";
 import HeadingMain from "@/app/components/ui/HeadingMain";
 import Subheading from "@/app/components/ui/Subheading";
 import Panel from "@/app/components/ui/Panel";
-
 import { useState, useRef } from "react";
+import { saveSettings } from "@/app/actions/save-settings/actions";
+import { useFormState } from "react-dom";
+
+const initialState = {
+  message: null,
+};
+const defaultCategoryColor = "#FFC107";
 
 export default function SettingsPage() {
   const categoryNameRef = useRef();
   const categoryColorRef = useRef();
   const [categories, setCategories] = useState([]);
-  const defaultCategoryColor = "#FFC107";
+  const [isCategoryEditable, setCategoryEditable] = useState(true);
+  
+
+  const [state, formAction] = useFormState(saveSettings, initialState);
+
+  //@todo Use state object to inform the user about the status of the form submission
 
   const handleAddCategory = (e) => {
     e.preventDefault();
@@ -35,13 +46,16 @@ export default function SettingsPage() {
     //reset the input fields
     categoryNameRef.current.value = "";
     categoryColorRef.current.value = defaultCategoryColor;
+  };
 
-    console.log(categories); // This will log the updated categories
+  const handleEditCategory = (e) => {
+    e.preventDefault();
+    setCategoryEditable(!isCategoryEditable);
   };
 
   return (
     <Panel>
-      <form action="" className="h-full flex flex-col">
+      <form action={formAction} className="h-full flex flex-col">
         <div className="section-padding border-b border-gray-200">
           <HeadingMain>Settings</HeadingMain>
           <Subheading>
@@ -59,38 +73,44 @@ export default function SettingsPage() {
                   className="w-full"
                   placeholder="Enter your monthly budget"
                   type="number"
+                  name="budget"
+                  required
                 />
               </dd>
             </div>
-            <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt className="text-sm font-medium text-gray-500">
+
+            <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+              <dt className="text-sm font-medium text-gray-500 col-span-2">
                 Spending categories
               </dt>
-              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                <div className="space-y-4">
-                  <div className="flex items-center gap-4">
-                    <Input
-                      className="w-1/2"
-                      placeholder="Category name"
-                      type="text"
-                      name="category-name"
-                      ref={categoryNameRef}
-                    />
-                    <Input
-                      className="border-0 rounded-md flex flex-[1_0_38px] p-0"
-                      type="color"
-                      defaultValue={defaultCategoryColor}
-                      name="category-color"
-                      ref={categoryColorRef}
-                    />
-                    <Button
-                      className="bg-transparent"
-                      variant="ghost"
-                      onClick={handleAddCategory}
-                    >
-                      Add
-                    </Button>
-                  </div>
+              <dd
+                className="mt-1 text-sm text-gray-900 
+              col-start-3 col-span-4
+              sm:mt-0"
+              >
+                <div className="flex items-center gap-4">
+                  <Input
+                    className="w-1/2"
+                    placeholder="Category name"
+                    type="text"
+                    name="category-name"
+                    ref={categoryNameRef}
+                    required={categories.length === 0}
+                  />
+                  <Input
+                    className="border-0 rounded-md flex flex-[1_0_38px] p-0"
+                    type="color"
+                    defaultValue={defaultCategoryColor}
+                    name="category-color"
+                    ref={categoryColorRef}
+                  />
+                  <Button
+                    className="bg-transparent"
+                    variant="ghost"
+                    onClick={handleAddCategory}
+                  >
+                    Add
+                  </Button>
                 </div>
               </dd>
             </div>
@@ -100,40 +120,67 @@ export default function SettingsPage() {
 
           {categories.length > 0 &&
             categories.map((category, index) => (
-              <form className="space-y-4 text-sm text-gray-900 gray-50 px-4 py-5">
-                <div className="flex items-center gap-4">
-                  <Input
-                    disabled
-                    className="w-1/2 border-0 "
-                    placeholder="Category name"
-                    type="text"
-                    value={category.name}
-                  />
-                  <Input
-                    disabled
-                    className="border-0 rounded-md flex flex-[1_0_38px] p-0"
-                    type="color"
-                    defaultValue={defaultCategoryColor}
-                    value={category.color}
-                  />
-                  <Button className="bg-transparent" variant="ghost">
-                    Edit
-                  </Button>
+              <div
+                key={index}
+                className="bg-white px-4 py-5 sm:grid sm:grid-cols-6 
+              sm:gap-4 sm:px-6 even:bg-gray-50"
+              >
+                <div className="col-start-3 col-span-4">
+                  <div className="flex items-center gap-4">
+                    <Input
+                      required
+                      disabled={isCategoryEditable}
+                      className="w-1/2 border-0 "
+                      placeholder="Category name"
+                      type="text"
+                      value={categories[index].name}
+                      onChange={(e) => {
+                        setCategories((prevCategories) => {
+                          const updatedCategories = [...prevCategories];
+                          updatedCategories[index].name = e.target.value;
+                          return updatedCategories;
+                        });
+                      }}
+                    />
+                    <Input
+                      disabled={isCategoryEditable}
+                      className="border-0 rounded-md flex flex-[1_0_38px] p-0"
+                      type="color"
+                      value={categories[index].color}
+                      onChange={(e) => {
+                        setCategories((prevCategories) => {
+                          const updatedCategories = [...prevCategories];
+                          updatedCategories[index].color = e.target.value;
+                          return updatedCategories;
+                        });
+                      }}
+                    />
+                    <Button
+                      type="button"
+                      className="bg-transparent"
+                      variant="ghost"
+                      onClick={handleEditCategory}
+                    >
+                      {!isCategoryEditable ? "Save" : "Edit"}
+                    </Button>
+                  </div>
                 </div>
-              </form>
+              </div>
             ))}
-
-
         </div>
         <div className="section-padding flex justify-end items-end m-[auto_0_0_0]">
           <Button
             className="bg-blue-600 hover:bg-blue-700"
             type="submit"
-            loading={false}
           >
             Save & Finish
           </Button>
         </div>
+        <input
+          type="hidden"
+          name="categories"
+          value={JSON.stringify(categories)}
+        />
       </form>
     </Panel>
   );
