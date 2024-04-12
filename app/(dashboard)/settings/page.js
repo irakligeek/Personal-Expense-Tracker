@@ -10,6 +10,7 @@ import { useFormState } from "react-dom";
 
 const initialState = {
   message: null,
+  error: false,
 };
 const defaultCategoryColor = "#FFC107";
 
@@ -17,8 +18,7 @@ export default function SettingsPage() {
   const categoryNameRef = useRef();
   const categoryColorRef = useRef();
   const [categories, setCategories] = useState([]);
-  const [isCategoryEditable, setCategoryEditable] = useState(true);
-  
+  const [isCategoryEditable, setCategoryEditable] = useState(false);
 
   const [state, formAction] = useFormState(saveSettings, initialState);
 
@@ -48,9 +48,24 @@ export default function SettingsPage() {
     categoryColorRef.current.value = defaultCategoryColor;
   };
 
-  const handleEditCategory = (e) => {
+  const toggleEditCategory = (e, categoryIndex) => {
+    console.log("categoryIndex", categoryIndex);
     e.preventDefault();
-    setCategoryEditable(!isCategoryEditable);
+
+    setCategoryEditable((prevState) => ({
+      ...prevState,
+      [categoryIndex]: !prevState[categoryIndex],
+    }));
+  };
+
+  const handleCategoryDelete = (e, categoryIndex) => {
+    e.preventDefault();
+    setCategories((prevCategories) => {
+      const updatedCategories = [...prevCategories].filter(
+        (el) => el !== prevCategories[categoryIndex]
+      );
+      return updatedCategories;
+    });
   };
 
   return (
@@ -123,14 +138,26 @@ export default function SettingsPage() {
               <div
                 key={index}
                 className="bg-white px-4 py-5 sm:grid sm:grid-cols-6 
-              sm:gap-4 sm:px-6 even:bg-gray-50"
+                sm:gap-4 sm:px-6 even:bg-gray-50 relative"
               >
                 <div className="col-start-3 col-span-4">
                   <div className="flex items-center gap-4">
+                    {isCategoryEditable[index] && (
+                      <Button
+                        className="text-sm text-red-500 sm:absolute sm:left-0 sm:ml-7 hover:underline"
+                        variant={"link"}
+                        onClick={(e) => {
+                          handleCategoryDelete(e, index);
+                        }}
+                      >
+                        Delete
+                      </Button>
+                    )}
+
                     <Input
                       required
-                      disabled={isCategoryEditable}
-                      className="w-1/2 border-0 "
+                      disabled={!isCategoryEditable[index]}
+                      style={isCategoryEditable[index] ? {} : { border: "0" }}                      className={`w-1/2`}
                       placeholder="Category name"
                       type="text"
                       value={categories[index].name}
@@ -143,7 +170,7 @@ export default function SettingsPage() {
                       }}
                     />
                     <Input
-                      disabled={isCategoryEditable}
+                      disabled={!isCategoryEditable[index]}
                       className="border-0 rounded-md flex flex-[1_0_38px] p-0"
                       type="color"
                       value={categories[index].color}
@@ -159,9 +186,9 @@ export default function SettingsPage() {
                       type="button"
                       className="bg-transparent"
                       variant="ghost"
-                      onClick={handleEditCategory}
+                      onClick={(e) => toggleEditCategory(e, index)}
                     >
-                      {!isCategoryEditable ? "Save" : "Edit"}
+                      {isCategoryEditable[index] ? "Save" : "Edit"}
                     </Button>
                   </div>
                 </div>
@@ -169,10 +196,7 @@ export default function SettingsPage() {
             ))}
         </div>
         <div className="section-padding flex justify-end items-end m-[auto_0_0_0]">
-          <Button
-            className="bg-blue-600 hover:bg-blue-700"
-            type="submit"
-          >
+          <Button className="bg-blue-600 hover:bg-blue-700" type="submit">
             Save & Finish
           </Button>
         </div>
