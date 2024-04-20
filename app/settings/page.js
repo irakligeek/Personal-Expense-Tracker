@@ -1,6 +1,6 @@
 "use client";
-import Input from "./components/ui/Input";
-import Button from "./components/ui/Button";
+import Input from "@/app/components/ui/Input";
+import Button from "@/app/components/ui/Button";
 import HeadingMain from "@/app/components/ui/HeadingMain";
 import Subheading from "@/app/components/ui/Subheading";
 import Panel from "@/app/components/ui/Panel";

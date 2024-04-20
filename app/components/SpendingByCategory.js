@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { formatUSD } from "../(dashboard)/lib/utils";
+import { formatUSD } from "../lib/utils";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import SpendingBreakdown from "./SpendingBreakdown";
 import { UserSettings } from "../context/userContext";

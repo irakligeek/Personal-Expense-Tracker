@@ -1,4 +1,4 @@
-import clientPromise from "@/app/(dashboard)/lib/mongodb";
+import clientPromise from "@/app/lib/mongodb";
 const dbName = "ExpenseTracker";
 const userId = "ika05010"; //This will be passed coming from the login session
 import { revalidatePath } from "next/cache";

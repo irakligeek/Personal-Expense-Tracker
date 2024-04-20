@@ -1,7 +1,7 @@
 "use client";
-import { formatUSD } from "../(dashboard)/lib/utils";
+import { formatUSD } from "../lib/utils";
 import { PieChart } from "react-minimal-pie-chart"; //https://www.npmjs.com/package/react-minimal-pie-chart
-import { getSpendingsByCategory } from "../(dashboard)/lib/lib";
+import { getSpendingsByCategory } from "../lib/lib";
 import { UserSettings } from "../context/userContext";
 import { useContext } from "react";
 

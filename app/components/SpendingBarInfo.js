@@ -1,11 +1,11 @@
 "use client";
-import { formatUSD } from "../(dashboard)/lib/utils";
+import { formatUSD } from "../lib/utils";
 import { useContext } from "react";
 import { UserSettings } from "../context/userContext";
 export default async function SpendingBarInfo({ totalSpending }) {
   const { settings } = useContext(UserSettings);
 
-  const monthlyBudget = settings.monthly_budget;
+  const monthlyBudget = settings.budget;
 
   const percentageSpent = ((totalSpending / monthlyBudget) * 100).toFixed(2);
   const percentageSpentRound = Math.ceil(percentageSpent);

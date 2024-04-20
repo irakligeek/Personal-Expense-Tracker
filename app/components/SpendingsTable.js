@@ -2,7 +2,7 @@
 import Panel from "./ui/Panel";
 import SpendingByCategory from "./SpendingByCategory";
 import HeadingMain from "./ui/HeadingMain";
-import { getSpendingsByCategory } from "../(dashboard)/lib/lib";
+import { getSpendingsByCategory } from "../lib/lib";
 import Subheading from "./ui/Subheading";
 export default function SpendingsTable({ spendings }) {
   const spendingsByCategory = getSpendingsByCategory(spendings);

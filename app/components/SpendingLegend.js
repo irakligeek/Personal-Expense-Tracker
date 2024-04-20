@@ -1,5 +1,5 @@
 'use client';
-import { formatUSD } from "../(dashboard)/lib/utils";
+import { formatUSD } from "../lib/utils";
 import { UserSettings } from "../context/userContext";
 import { useContext } from "react";
 

@@ -1,6 +1,6 @@
-import clientPromise from "@/app/(dashboard)/lib/mongodb";
-const dbName = "ExpenseTracker";
-const userId = "ika05010"; //This will be passed coming from the login session
+import clientPromise from "@/app/lib/mongodb";
+import { userId } from "@/app/lib/authentication/user";
+const { DB_NAME } = process.env;
 
 export async function GET(request) {
 //   const searchParams = request.nextUrl.searchParams;
@@ -9,9 +9,9 @@ export async function GET(request) {
   try {
     const client = await clientPromise;
     const result = await client
-      .db(dbName)
+      .db(DB_NAME)
       .collection("userSettings")   
-      .findOne({userid: userId});
+      .findOne({userId: userId});
       
     return Response.json({result});
   } catch (error) {

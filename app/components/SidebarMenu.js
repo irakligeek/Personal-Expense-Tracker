@@ -23,8 +23,9 @@ export default function SidebarMenu() {
         <CloseButton onClick={() => setMobileMenuOpen(false)}/>
           
         <ul className="flex flex-col gap-8">
-          <SideBarMenuItem link="/">Home</SideBarMenuItem>
-          <SideBarMenuItem link="/settings">Settings</SideBarMenuItem>
+          <SideBarMenuItem link="/">Dashboard</SideBarMenuItem>
+          <SideBarMenuItem link="/budget">Budget</SideBarMenuItem>
+          <SideBarMenuItem link="/category">Categories</SideBarMenuItem>
           <SideBarMenuItem link="/reports">Expenses</SideBarMenuItem>
         </ul>
       </nav>

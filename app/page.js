@@ -1,26 +1,25 @@
 import SpendingBarInfo from "./components/SpendingBarInfo";
-import Divider from "./components/ui/Divider";
+// import Divider from "./components/ui/Divider";
 import SpendingChart from "./components/SpendingChart";
 import Panel from "./components/ui/Panel";
 import SpendingsTable from "./components/SpendingsTable";
 import HeadingMain from "./components/ui/HeadingMain";
 import SpendingLegend from "./components/SpendingLegend";
-import { getCurrentMonthDates } from "./(dashboard)/lib/lib";
-import { getSpendingsByCategory } from "./(dashboard)/lib/lib";
+import { getCurrentMonthDates, getSpendingsByCategory } from "./lib/lib";
 import UserSettingsCtx from "./context/userContext";
 import Subheading from "./components/ui/Subheading";
 export default async function Home() {
   const currentMonth = new Date().toLocaleString("en-US", { month: "long" });
-  const base_ur = process.env.BASE_URL;
+  const base_url = process.env.BASE_URL;
 
   async function fetchSettings() {
     try {
-      const response = await fetch(`${base_ur}/api/settings/`, {
+      const response = await fetch(`${base_url}/api/settings/`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
-        //  next: { revalidate: 1 }, //@todo, remove this in prod. For testing ONLY
+        next: { revalidate: 1 }, //@todo, remove this in prod. For testing ONLY
       });
 
       const data = await response.json();
@@ -31,15 +30,14 @@ export default async function Home() {
 
       return false;
     } catch (error) {
-      console.error("Error", error);
-      throw new Error("Error occurred while fetching user settings");
+      throw new Error("Error occurred while fetching user settings", error);
     }
   }
 
   async function fetchSpendings(start, end) {
     try {
       const response = await fetch(
-        `${base_ur}/api/expenses?date_start=${start}&date_end=${end}`,
+        `${base_url}/api/expenses?date_start=${start}&date_end=${end}`,
         {
           method: "GET",
           headers: {
@@ -80,7 +78,9 @@ export default async function Home() {
       <Panel classes="flex flex-col max-w-2xl">
         <div className="section-padding border-b border-gray-200">
           <HeadingMain>Total spending</HeadingMain>
-          <Subheading>Your spendings for the current month of {currentMonth}</Subheading>
+          <Subheading>
+            Your spendings for the current month of {currentMonth}
+          </Subheading>
 
           <div className="flex flex-row justify-between flex-wrap gap-6 md:gap-8">
             <SpendingChart
