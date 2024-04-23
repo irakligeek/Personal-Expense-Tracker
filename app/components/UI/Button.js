@@ -1,7 +1,7 @@
 import { TailSpin } from "react-loading-icons";
 import { useFormStatus } from "react-dom";
 
-export default function Button({ children, className, variant, ...props }) {
+export default function Button({ children, className, variant, loading, ...props }) {
   let { pending } = useFormStatus();
   
   let bg_color = '';
@@ -26,7 +26,7 @@ export default function Button({ children, className, variant, ...props }) {
        ${pending ? "cursor-not-allowed" : "cursor-pointer"}`}
       {...props}
     >
-      {pending && variant !== 'link' ? (
+      {(pending && variant !== 'link' && loading) ? (
         <span className="flex justify-center items-center gap-3">
           <TailSpin
             className=""

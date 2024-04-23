@@ -34,7 +34,7 @@ export default function UserNotification({ children, type }) {
 
   return isVisible && (
     <div
-      className={`${classes} ${animation} p-7 pr-12 absolute top-4 
+      className={`${classes} ${animation} p-7 pr-16 absolute top-4 
       max-w-full z-50 w-max min-w-80 shadow-md
       left-1/2 transform -translate-x-1/2`}
       onAnimationEnd={() => !isVisible && setIsVisible(false)}

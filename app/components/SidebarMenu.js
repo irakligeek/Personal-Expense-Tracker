@@ -25,7 +25,7 @@ export default function SidebarMenu() {
         <ul className="flex flex-col gap-8">
           <SideBarMenuItem link="/">Dashboard</SideBarMenuItem>
           <SideBarMenuItem link="/budget">Budget</SideBarMenuItem>
-          <SideBarMenuItem link="/category">Categories</SideBarMenuItem>
+          <SideBarMenuItem link="/categories">Categories</SideBarMenuItem>
           <SideBarMenuItem link="/reports">Expenses</SideBarMenuItem>
         </ul>
       </nav>

@@ -1,14 +1,10 @@
-import { AiOutlineHome } from "react-icons/ai";
 import { IoSettingsOutline } from "react-icons/io5";
 import {
   MdOutlineFileCopy,
 } from "react-icons/md";
-
-import { BiMoneyWithdraw, BiCategoryAlt } from "react-icons/bi";
-
-
-
-
+import { BiCategoryAlt } from "react-icons/bi";
+import { TbBrandGoogleAnalytics } from "react-icons/tb";
+import { BiCoinStack } from "react-icons/bi";
 import { usePathname } from "next/navigation";
 
 import Link from "next/link";
@@ -27,10 +23,10 @@ export default function SideBarMenuItem({ children, link }) {
               : " hover:text-zinc-500 text-zinc-800"
           }`}
       >
-        {children === "Dashboard" && <AiOutlineHome className="text-xl" />}
+        {children === "Dashboard" && <TbBrandGoogleAnalytics className="text-xl" />}
         {children === "Settings" && <IoSettingsOutline className="text-xl" />}
         {children === "Expenses" && <MdOutlineFileCopy className="text-xl" />}
-        {children === "Budget" && <BiMoneyWithdraw className="text-xl" />}
+        {children === "Budget" && <BiCoinStack className="text-xl" />}
         {children === "Categories" && <BiCategoryAlt className="text-xl" />}
         <span>{children}</span>
       </Link>

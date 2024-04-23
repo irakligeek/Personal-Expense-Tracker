@@ -40,7 +40,6 @@ export default function BudgetForm() {
       });
   }, []);
 
-
   return (
     <>
       {error && message && (
@@ -97,7 +96,11 @@ export default function BudgetForm() {
           </dl>
         </div>
         <div className="section-padding flex justify-end items-end m-[auto_0_0_0]">
-          <Button className="bg-blue-600 hover:bg-blue-700" type="submit">
+          <Button
+            className="bg-blue-600 hover:bg-blue-700"
+            type="submit"
+            loading={true}
+          >
             Save & Finish
           </Button>
         </div>
