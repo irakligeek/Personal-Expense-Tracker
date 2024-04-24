@@ -1,5 +1,4 @@
 import SpendingBarInfo from "./components/SpendingBarInfo";
-// import Divider from "./components/ui/Divider";
 import SpendingChart from "./components/SpendingChart";
 import Panel from "./components/ui/Panel";
 import SpendingsTable from "./components/SpendingsTable";
@@ -8,7 +7,7 @@ import SpendingLegend from "./components/SpendingLegend";
 import { getCurrentMonthDates, getSpendingsByCategory } from "./lib/lib";
 import UserSettingsCtx from "./context/userContext";
 import Subheading from "./components/ui/Subheading";
-import AddExpanseButton from "./components/AddExpanseButton";
+import AddExpenseButton from "./components/AddExpenseButton";
 
 export default async function Home() {
   const currentMonth = new Date().toLocaleString("en-US", { month: "long" });
@@ -78,7 +77,7 @@ export default async function Home() {
   return (
     <UserSettingsCtx settings={settings}>
       <div className="w-full flex justify-end mb-4">
-        <AddExpanseButton>Add Expense</AddExpanseButton>
+        <AddExpenseButton>Add Expense</AddExpenseButton>
       </div>
 
       <Panel classes="flex flex-col max-w-2xl">

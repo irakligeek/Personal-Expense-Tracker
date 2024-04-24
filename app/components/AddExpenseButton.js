@@ -1,9 +1,14 @@
-export default function AddExpanseButton({ children, classes = ""}) {
+"use client";
+import { useRouter } from "next/navigation";
+
+export default function AddExpenseButton({ children, classes = "" }) {
+  const router = useRouter();
   return (
     <button
       className={`bg-primary text-white rounded-full p-2 px-6
      flex items-center justify-center h-16 gap-4 ${classes} 
       transition-shadow duration-200 ease-in-out hover:shadow-lg`}
+      onClick={() => router.push("/new")}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
