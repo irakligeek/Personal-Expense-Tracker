@@ -268,7 +268,7 @@ export default function CategoriesForm() {
                 </div>
               ))}
         </div>
-        <div className="section-padding flex justify-end items-end m-[auto_0_0_0]">
+        <div className="section-padding flex justify-end">
           <Button
             className="bg-blue-600 hover:bg-blue-700"
             type="submit"

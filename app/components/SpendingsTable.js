@@ -8,7 +8,7 @@ export default function SpendingsTable({ spendings }) {
   const spendingsByCategory = getSpendingsByCategory(spendings);
 
   return (
-    <Panel classes="max-w-2xl">
+    <>
       <HeadingMain>Spendings by categories</HeadingMain>
       <Subheading>Your spendings in details by category</Subheading>
       <div
@@ -39,6 +39,6 @@ export default function SpendingsTable({ spendings }) {
             spendings={spendings}
           />
         ))}
-    </Panel>
+    </>
   );
 }

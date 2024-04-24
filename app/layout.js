@@ -28,9 +28,10 @@ export default function RootLayout({ children }) {
       <body>
         <Context>
           <HeaderMain />
-          <main className=" grid grid-cols-1 md:grid-cols-[300px_1fr] h-[calc(100svh_-_54px)]">
+          <main className="grid grid-cols-1 md:grid-cols-[120px_1fr] min-h-screen
+           bg-backgroundDark">
             <SidebarMenu />
-            <section>{children}</section>
+            <section className="m-auto mt-6 mb-6  w-full md:max-w-[768px]">{children}</section>
           </main>
         </Context>
       </body>

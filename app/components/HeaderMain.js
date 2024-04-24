@@ -12,7 +12,7 @@ export default function HeaderMain() {
   return (
     
       <header
-        className="min-h-14 bg-zinc-800 
+        className="min-h-14 bg-primary 
          text-zinc-200 flex flex-row items-center gap-2 py-2 px-4 justify-between"
       >
         {/* Mobile nav */}

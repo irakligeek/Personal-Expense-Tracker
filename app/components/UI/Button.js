@@ -13,8 +13,10 @@ export default function Button({ children, className, variant, loading, ...props
   } else if (variant === "link") { 
     bg_color = `text-red-500 hover:underline bg-transparent p-0`;
   } else {
-    bg_color = `bg-blue-600 hover:bg-blue-700 focus:ring-blue-500 text-white min-w-32 shadow-sm rounded-md shadow-sm px-4 py-2 h-10  
-    ${pending} ? 'bg-gray-500 hover:bg-gray-500' : ''`;
+    bg_color = `bg-primary focus:ring-blue-500 
+    text-white min-w-32 shadow-sm rounded-md shadow-sm px-4 py-2 h-10 
+    transition-shadow duration-200 ease-in-out hover:shadow-lg hover:bg-primary
+    ${pending} ? 'bg-gray-500 ' : ''`;
   }
   
   return (

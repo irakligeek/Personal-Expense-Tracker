@@ -13,21 +13,21 @@ export default function SideBarMenuItem({ children, link }) {
   const isActive = pathname === link;
 
   return (
-    <li className="">
+    <li className="border-b border-zinc-200 py-3">
       <Link
         href={link}
-        className={`font-semibold flex items-center gap-2
+        className={`text-sm flex flex-col items-center gap-1
           transition-colors duration-200 ease-in-out ${
             isActive
               ? "text-blue-500 hover:text-blue-400"
               : " hover:text-zinc-500 text-zinc-800"
           }`}
       >
-        {children === "Dashboard" && <TbBrandGoogleAnalytics className="text-xl" />}
-        {children === "Settings" && <IoSettingsOutline className="text-xl" />}
-        {children === "Expenses" && <MdOutlineFileCopy className="text-xl" />}
-        {children === "Budget" && <BiCoinStack className="text-xl" />}
-        {children === "Categories" && <BiCategoryAlt className="text-xl" />}
+        {children === "Dashboard" && <TbBrandGoogleAnalytics className="text-2xl" />}
+        {children === "Settings" && <IoSettingsOutline className="text-2xl" />}
+        {children === "Expenses" && <MdOutlineFileCopy className="text-2xl" />}
+        {children === "Budget" && <BiCoinStack className="text-2xl" />}
+        {children === "Categories" && <BiCategoryAlt className="text-2xl" />}
         <span>{children}</span>
       </Link>
     </li>

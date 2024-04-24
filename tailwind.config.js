@@ -11,6 +11,7 @@ module.exports = {
       },
       colors: {
         primary: "#1976D2", // blue
+        primaryHover: "#1565C0", // blue
         secondary: "#424242", // grey
         background: "#FFFFFF", // white
         accent: "#FFC107", // yellow

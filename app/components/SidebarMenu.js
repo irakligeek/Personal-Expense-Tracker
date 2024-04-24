@@ -13,16 +13,16 @@ export default function SidebarMenu() {
   return (
     <>
       <nav
-        className={`bg-backgroundDark pb-8 pt-16 px-8 border-r border-zinc-200
-     md:relative md:px-16 md:top-auto md:left-auto md:w-auto md:h-auto md:translate-x-0
+        className={`pb-8 border-r border-zinc-200 bg-white
+     md:relative md:top-auto md:h-auto md:translate-x-0
      transition-transform duration-300 ease-in-out 
-     fixed left-0 top-0 h-full w-[280px] z-50 ${
-       isMobileMenuOpen ? "translate-x-0" : "translate-x-[-280px]"
+     fixed left-0 top-auto h-full z-50 w-[120px] ${
+       isMobileMenuOpen ? "translate-x-0" : "translate-x-[-120px]"
      }`}
       >
-        <CloseButton onClick={() => setMobileMenuOpen(false)}/>
+        {/* <CloseButton onClick={() => setMobileMenuOpen(false)}/> */}
           
-        <ul className="flex flex-col gap-8">
+        <ul className="flex flex-col">
           <SideBarMenuItem link="/">Dashboard</SideBarMenuItem>
           <SideBarMenuItem link="/budget">Budget</SideBarMenuItem>
           <SideBarMenuItem link="/categories">Categories</SideBarMenuItem>

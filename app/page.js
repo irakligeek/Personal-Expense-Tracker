@@ -8,6 +8,8 @@ import SpendingLegend from "./components/SpendingLegend";
 import { getCurrentMonthDates, getSpendingsByCategory } from "./lib/lib";
 import UserSettingsCtx from "./context/userContext";
 import Subheading from "./components/ui/Subheading";
+import AddExpanseButton from "./components/AddExpanseButton";
+
 export default async function Home() {
   const currentMonth = new Date().toLocaleString("en-US", { month: "long" });
   const base_url = process.env.BASE_URL;
@@ -75,12 +77,18 @@ export default async function Home() {
 
   return (
     <UserSettingsCtx settings={settings}>
+      <div className="w-full flex justify-end mb-4">
+        <AddExpanseButton>Add Expense</AddExpanseButton>
+      </div>
+
       <Panel classes="flex flex-col max-w-2xl">
         <div className="section-padding border-b border-gray-200">
-          <HeadingMain>Total spending</HeadingMain>
-          <Subheading>
-            Your spendings for the current month of {currentMonth}
-          </Subheading>
+          <header>
+            <HeadingMain>Total spending</HeadingMain>
+            <Subheading>
+              Your spendings for the current month of {currentMonth}
+            </Subheading>
+          </header>
 
           <div className="flex flex-row justify-between flex-wrap gap-6 md:gap-8">
             <SpendingChart
