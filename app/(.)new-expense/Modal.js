@@ -20,7 +20,7 @@ export function Modal({ children }) {
         ref={dialogRef}
         onClose={() => router.push("/")}
         className="w-4/5 h-auto max-h-96 border-none rounded-xl bg-white max-w-[768px]
-      p-5 relative flex justify-center items-center text-6xl font-medium"
+      p-5 relative flex justify-center items-start text-6xl font-medium"
       >
         {children}
         <button
