@@ -19,8 +19,8 @@ export function Modal({ children }) {
       <dialog
         ref={dialogRef}
         onClose={() => router.push("/")}
-        className="w-4/5 h-auto max-h-96 border-none rounded-xl bg-white max-w-[768px]
-      p-5 relative flex justify-center items-start text-6xl font-medium"
+        className="w-fit h-auto border-none rounded-xl bg-white h-fit
+          p-5 relative flex justify-center items-start"
       >
         {children}
         <button
