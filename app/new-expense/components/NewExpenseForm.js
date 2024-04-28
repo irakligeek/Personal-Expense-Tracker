@@ -9,13 +9,21 @@ import { useFormState } from "react-dom";
 import { addExpense } from "@/app/actions/add-expense/actions";
 
 export default function NewExpenseForm() {
+
+  //@todo how to prevent modal close on form submit
+  
   const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState(null); //selected category from the dropdown
+  const [selectedCategory, setSelectedCategory] = useState({
+    name: "",
+    label: "",
+  });
 
   const [state, formAction] = useFormState(addExpense, {
-    message: null,
+    message: "",
     error: false,
   });
+
+  console.log("state", state);
 
   //Fetch categories from the server and update the categories state
   useEffect(() => {
@@ -36,9 +44,10 @@ export default function NewExpenseForm() {
       });
   }, []);
 
-  console.log("categories", selectedCategory);
   return (
-    <form action={formAction}>
+    <form
+      action={formAction}
+    >
       <div className="section-padding">
         <HeadingMain>Add Expense</HeadingMain>
         <Subheading>
@@ -58,6 +67,7 @@ export default function NewExpenseForm() {
               placeholder="$0.00"
               type="number"
               name="amount"
+              step="0.5"
               required
             />
           </div>
@@ -155,7 +165,11 @@ export default function NewExpenseForm() {
       </div>
       {/* Add categories name property into the hidden input value */}
 
-      <input type="hidden" name="selectedCategory" value={selectedCategory?.name}/>
+      <input
+        type="hidden"
+        name="selectedCategory"
+        value={selectedCategory?.name}
+      />
     </form>
   );
 }
