@@ -5,7 +5,6 @@ import Link from "next/link";
 import { AiOutlineMenu } from "react-icons/ai";
 import { useContext } from "react";
 import { HeaderContext } from "../context/context";
-
 export default function HeaderMain() {
   const { isMobileMenuOpen, setMobileMenuOpen } = useContext(HeaderContext);
 
