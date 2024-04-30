@@ -18,6 +18,7 @@ export default function NewExpenseForm() {
     name: "",
     label: "",
   });
+  const [isReuccuring, setIsReoccuring] = useState(false);
   //create formRef so you can reset the form after submission
   const formRef = useRef();
   const selectRef = useRef();
@@ -44,7 +45,10 @@ export default function NewExpenseForm() {
     event.preventDefault();
     setIsLoading(true);
     const formData = new FormData(event.target);
-    const data = Object.fromEntries(formData.entries());
+    let data = Object.fromEntries(formData.entries());
+    //get reoccuring frequency checkbox value
+    data.reoccuring = isReuccuring;
+    data.reoccuringFrequency = isReuccuring ? data.reoccuringFrequency : null;
 
     //Make POST call to 'api/expenses' to add expense to the database, use try catch block
     try {
@@ -94,7 +98,6 @@ export default function NewExpenseForm() {
     selectRef.current.clearValue();
   };
 
-  //@todo add reoccuring expenses checkbox to the form
   return (
     <>
       {errorObj?.error && errorObj?.message && (
@@ -114,7 +117,6 @@ export default function NewExpenseForm() {
           <Subheading>
             Add your spending amount, category and optional name
           </Subheading>
-
           <div className="sm:grid sm:grid-cols-[0.5fr_1fr] gap-4 flex flex-col">
             <div className="space-y-2">
               <label
@@ -237,6 +239,62 @@ export default function NewExpenseForm() {
                   errorObj?.field === "name" ? "border border-red-500" : ""
                 }`}
               />
+            </div>
+            <div className="col-span-full flex gap-3 justify-start items-center my-2">
+              <div className="flex items-center gap-2">
+                <input
+                  id="reoccuring"
+                  type="checkbox"
+                  name="reoccuring"
+                  className="w-5 h-5 cursor-pointer"
+                  onChange={(e) => setIsReoccuring(e.target.checked)}
+                />
+                <label
+                  htmlFor="reoccuring"
+                  className="text-sm font-medium text-gray-500 self-center m-0 cursor-pointer"
+                >
+                  This a reoccuring expense
+                </label>
+              </div>
+              {isReuccuring && (
+                <div>
+                  <label
+                    htmlFor="reoccuringFrequency"
+                    className="text-sm font-medium text-gray-500 self-center m-0 cursor-pointer sr-only"
+                  >
+                    Reoccuring Frequency
+                  </label>
+                  <div className="relative inline-block w-full">
+                    <svg
+                      className="absolute top-0 right-0 pointer-events-none h-full mr-2"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      style={{ width: "1rem" }}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                    <select
+                      id="reoccuringFrequency"
+                      name="reoccuringFrequency"
+                      className="border border-gray-300 rounded-md px-3 py-2 
+                    text-sm appearance-none pr-10"
+                    >
+                      <option value="monthly" selected>
+                        Monthly
+                      </option>
+                      <option value="weekly">Weekly</option>
+                      <option value="daily">Daily</option>
+                    </select>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

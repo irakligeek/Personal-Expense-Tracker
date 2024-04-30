@@ -57,6 +57,8 @@ export default async function Home() {
     }
   }
 
+  //@todo get reoccuring monthly expenses
+
   const settings = await fetchSettings();
 
   const spendings = await fetchSpendings(...getCurrentMonthDates());

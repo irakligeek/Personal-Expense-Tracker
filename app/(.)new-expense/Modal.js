@@ -6,29 +6,30 @@ import { ModalContext } from "@/app/context/modalContext";
 
 export function Modal({ children }) {
   const { isModalClose, setModalClose } = useContext(ModalContext);
-
+  const timeToCloseModal  = 4; //seconds to close
   const router = useRouter();
   const dialogRef = useRef(null);
   const [isOpen, setIsOpen] = useState(true);
 
-
   //Close modal in 3 seconds if isModalClose is true, then redirect to home page. 
   useEffect(() => {
+    
     if (isModalClose) {
       setTimeout(() => {
         setModalClose(false);
         setIsOpen(false);
         router.push("/");
         router.refresh(); //refresh the page to get the latest data
-      }, 3000);
+      }, timeToCloseModal * 1000);
     }
+    
   }, [isModalClose]);
   
 
   return createPortal(
     isOpen ? (
       <div
-        className="absolute top-0 left-0 right-0 bottom-0 
+        className="fixed top-0 left-0 right-0 bottom-0 
       bg-black bg-opacity-70 flex justify-center items-center z-50"
       >
         <div
@@ -37,6 +38,7 @@ export function Modal({ children }) {
             p-5 relative flex justify-center items-start"
         >
           {children}
+          
           <button
             onClick={() => {
               setIsOpen(false);
