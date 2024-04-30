@@ -12,10 +12,13 @@ export const getCurrentMonthDates = () => {
 
 // Get the user's spending by category summing up all category spendings
 export const getSpendingsByCategory = (spendings) => {
+  if(!spendings){
+    return [];
+  }
   //@todo add category colors
   const combinedSpendings = spendings.reduce((acc, spending) => {
     const existingCategory = acc.find(
-      (item) => item.name.toLowerCase() === spending.category.toLowerCase()
+      (item) => item.name?.toLowerCase() === spending.category?.toLowerCase()
     );
 
     if (existingCategory) {

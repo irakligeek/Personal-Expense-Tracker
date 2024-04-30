@@ -44,6 +44,7 @@ export default async function Home() {
           headers: {
             "Content-Type": "application/json",
           },
+          next: { tags: ["expenses"]}
           // next: { revalidate: 1 }, //@todo, remove this in prod. For testing ONLY
         }
       );

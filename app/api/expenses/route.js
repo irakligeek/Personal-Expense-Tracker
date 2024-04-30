@@ -3,7 +3,7 @@ import { z } from "zod";
 import clientPromise from "@/app/lib/mongodb";
 const DB_NAME = process.env.DB_NAME;
 import { userId } from "@/app/lib/authentication/user";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 //Create string schema
 const stringSchema = z.string();
@@ -16,10 +16,14 @@ export async function GET(request) {
   const dateEnd = searchParams.get("date_end");
   const category = searchParams.get("category");
 
+  const dateFrom = new Date(dateStart);
+  dateFrom.setUTCHours(0, 0, 0, 0); // start of the day in UTC
+  const dateTo = new Date(dateEnd);
+  dateTo.setUTCHours(23, 59, 59, 999); // end of the day in UTC
+  // 1. get data from MongoDB database and sort by date most recent
   let findQurey = {
-    userid: userId,
-    // amount: { $gt: 0 },
-    date: { $gte: dateStart, $lte: dateEnd },
+    userId: userId,
+    date: { $gte: dateFrom, $lte: dateTo },
   };
   if (category) {
     //add category to the query if it is provided
@@ -32,6 +36,7 @@ export async function GET(request) {
       .db(DB_NAME)
       .collection("spendings")
       .find(findQurey)
+      .sort({ date: -1 })
       .toArray();
 
     return Response.json({ result });
@@ -45,6 +50,9 @@ export async function GET(request) {
 
 //Add expense to the database
 export async function POST(request) {
+
+  // revalidateTag("expenses");
+
   let response = {
     message: false,
     error: false,
@@ -129,10 +137,11 @@ export async function POST(request) {
     const client = await clientPromise;
     const db = client.db(DB_NAME);
     const expenses = db.collection("spendings");
+    const category = selectedCategory;
     db_result = await expenses.insertOne({
       userId: userId,
       amount,
-      selectedCategory,
+      category,
       name,
       date: new Date(),
     });

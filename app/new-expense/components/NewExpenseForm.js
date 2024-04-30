@@ -4,10 +4,13 @@ import Input from "@/app/components/ui/Input";
 import HeadingMain from "@/app/components/ui/HeadingMain";
 import Subheading from "@/app/components/ui/Subheading";
 import Select from "react-select"; //https://react-select.com/styles
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import UserNotification from "@/app/components/UserNotification";
+import { ModalContext } from "@/app/context/modalContext";
 
 export default function NewExpenseForm() {
+  const { setModalClose } = useContext(ModalContext);
+
   const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [errorObj, setError] = useState(null);
@@ -39,7 +42,6 @@ export default function NewExpenseForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     setIsLoading(true);
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
@@ -76,8 +78,9 @@ export default function NewExpenseForm() {
       setError(responseMessage);
 
       if (!error) {
-        //reset the form after successful submission
+        //reset the form after successful submission and close the modal
         resetForm();
+        setModalClose(true); // close modal
       }
     } catch (error) {
       console.error("Error", error);
@@ -90,7 +93,6 @@ export default function NewExpenseForm() {
     formRef.current.reset();
     selectRef.current.clearValue();
   };
-
 
   //@todo add reoccuring expenses checkbox to the form
   return (

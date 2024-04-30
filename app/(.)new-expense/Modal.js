@@ -1,12 +1,29 @@
 "use client";
-import { useRef, useState } from "react";
+import { useRef, useState, useContext, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { createPortal } from "react-dom";
+import { ModalContext } from "@/app/context/modalContext";
 
 export function Modal({ children }) {
+  const { isModalClose, setModalClose } = useContext(ModalContext);
+
   const router = useRouter();
   const dialogRef = useRef(null);
   const [isOpen, setIsOpen] = useState(true);
+
+
+  //Close modal in 3 seconds if isModalClose is true, then redirect to home page. 
+  useEffect(() => {
+    if (isModalClose) {
+      setTimeout(() => {
+        setModalClose(false);
+        setIsOpen(false);
+        router.push("/");
+        router.refresh(); //refresh the page to get the latest data
+      }, 3000);
+    }
+  }, [isModalClose]);
+  
 
   return createPortal(
     isOpen ? (

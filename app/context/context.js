@@ -1,6 +1,5 @@
 "use client";
-
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 
 export const HeaderContext = createContext(null);
 export const SpendingContext = createContext([]);
@@ -37,19 +36,6 @@ async function fetchSpendings(start, end) {
 export default function Context({ children }) {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState();
   const [monthylSpendingData, setSpendingData] = useState([]);
-
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     try {
-  //       const data = await fetchSpendings(...getCurrentMonthDates());
-
-  //       setSpendingData(data);
-  //     } catch (error) {
-  //       console.error("Error", error);
-  //     }
-  //   }
-  //   fetchData();
-  // }, []);
 
   return (
     <SpendingContext.Provider value={{ monthylSpendingData, setSpendingData }}>
