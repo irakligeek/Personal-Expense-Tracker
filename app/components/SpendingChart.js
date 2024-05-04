@@ -7,11 +7,16 @@ import { useContext } from "react";
 
 // This component will render a pie chart of the user's spending by category,
 //filtering out categories with no spending
-export default function SpendingChart({ month, monthylSpendingData }) {
+export default function SpendingChart({ month, spendingData }) {
   const { settings } = useContext(UserSettings);
   const userCategories = settings.categories;
 
-  const totalMonthlySpendings = getSpendingsByCategory(monthylSpendingData);
+  const totalMonthlySpendings = getSpendingsByCategory(spendingData);
+
+  if (totalMonthlySpendings.length === 0) {
+    return <p className="text-gray-500">No spending for this month 👍</p>;
+  }
+  
   const chartData = totalMonthlySpendings.map((data) => {
     const color = userCategories.find(
       (item) => item.name.toLowerCase() === data.name.toLowerCase()

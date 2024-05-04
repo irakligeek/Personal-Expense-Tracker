@@ -3,19 +3,23 @@ import { formatUSD } from "../lib/utils";
 import { useContext } from "react";
 import { UserSettings } from "../context/userContext";
 export default async function SpendingBarInfo({ totalSpending }) {
+
+  if(!totalSpending) return null;
+
   const { settings } = useContext(UserSettings);
 
   const monthlyBudget = settings.budget;
 
-  const percentageSpent = ((totalSpending / monthlyBudget) * 100).toFixed(2);
-  const percentageSpentRound = Math.ceil(percentageSpent);
+  const percentageSpent = Math.ceil(
+    ((totalSpending / monthlyBudget) * 100)
+  )?.toFixed(2);
 
   let spendingBarBGcolor = "#1976D2";
-  if (percentageSpentRound > 49 && percentageSpentRound <= 80) {
+  if (percentageSpent > 49 && percentageSpent <= 80) {
     spendingBarBGcolor = "#ffc107";
-  } else if (percentageSpentRound > 79 && percentageSpentRound < 90) {
+  } else if (percentageSpent > 79 && percentageSpent < 90) {
     spendingBarBGcolor = "#1976D2";
-  } else if (percentageSpentRound > 89) {
+  } else if (percentageSpent > 89) {
     spendingBarBGcolor = "#FF4500";
   }
 

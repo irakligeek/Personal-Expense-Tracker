@@ -33,6 +33,7 @@ export async function GET(request) {
     const db = client.db(DB_NAME);
     const userSettings = db.collection(COLLECTION_NAME_USER_SETTINGS);
     const userSettingsData = await userSettings.findOne({ userId: userId });
+
     if (userSettingsData) {
       categories = userSettingsData.categories.map((cat) => cat.name);
     }
@@ -67,7 +68,6 @@ export async function GET(request) {
       .find(findQurey)
       .sort({ date: -1 })
       .toArray();
-
     return Response.json({ result });
   } catch (error) {
     console.error("Error occurred while getting spendings: ", error);

@@ -6,8 +6,6 @@ export const formatUSD = (value) => {
     }).format(value);
   };
   
-
-
 export const generateFakeSpendingData = () => {
   const categories = spendingCategories.map((category) => category.name);
   const data = [];

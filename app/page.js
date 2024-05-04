@@ -8,6 +8,7 @@ import { getCurrentMonthDates, getSpendingsByCategory } from "./lib/lib";
 import UserSettingsCtx from "./context/userContext";
 import Subheading from "./components/ui/Subheading";
 import AddExpenseButton from "./components/AddExpenseButton";
+import SpendingsHeader from "./components/SpendingsHeader";
 
 export default async function Home() {
   const currentMonth = new Date().toLocaleString("en-US", { month: "long" });
@@ -35,16 +36,16 @@ export default async function Home() {
     }
   }
 
-  async function fetchSpendings(start, end) {
+  async function fetchSpendings(startDate, endDate) {
     try {
       const response = await fetch(
-        `${base_url}/api/expenses?date_start=${start}&date_end=${end}`,
+        `${base_url}/api/expenses?date_start=${startDate}&date_end=${endDate}`,
         {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
-          next: { tags: ["expenses"]}
+          next: { tags: ["expenses"] },
           // next: { revalidate: 1 }, //@todo, remove this in prod. For testing ONLY
         }
       );
@@ -83,32 +84,43 @@ export default async function Home() {
         <AddExpenseButton>Add Expense</AddExpenseButton>
       </div>
 
+      <Panel>
+        <SpendingsHeader/>
+      </Panel>
       <Panel classes="flex flex-col max-w-2xl">
-        <div className="section-padding border-b border-gray-200">
-          <header>
-            <HeadingMain>Total spending</HeadingMain>
-            <Subheading>
-              Your spendings for the current month of {currentMonth}
-            </Subheading>
-          </header>
+        {totalMonthlySpendings.length === 0 ? (
+          <p className="text-gray-500 py-10 px-8">
+            No spendings for this month 👍
+          </p>
+        ) : (
+          <>
+            <div className="section-padding border-b border-gray-200">
+              <header>
+                <HeadingMain>Total spending</HeadingMain>
+                <Subheading>
+                  Your spendings for the current month ({currentMonth})
+                </Subheading>
+              </header>
 
-          <div className="flex flex-row justify-between flex-wrap gap-6 md:gap-8">
-            <SpendingChart
-              month={currentMonth}
-              monthylSpendingData={allSpending}
-            />
-            <SpendingLegend spendingData={totalMonthlySpendings} />
-          </div>
+              <div className="flex flex-row justify-between flex-wrap gap-6 md:gap-8">
+                <SpendingChart
+                  month={currentMonth}
+                  monthylSpendingData={allSpending}
+                />
+                <SpendingLegend spendingData={totalMonthlySpendings} />
+              </div>
 
-          <SpendingBarInfo totalSpending={totalSpending} />
-        </div>
+              <SpendingBarInfo totalSpending={totalSpending} />
+            </div>
 
-        <div className="section-padding">
-          <SpendingsTable
-            spendingsByCategory={totalMonthlySpendings}
-            spendings={allSpending}
-          />
-        </div>
+            <div className="section-padding">
+              <SpendingsTable
+                spendingsByCategory={totalMonthlySpendings}
+                spendings={allSpending}
+              />
+            </div>
+          </>
+        )}
       </Panel>
     </UserSettingsCtx>
   );

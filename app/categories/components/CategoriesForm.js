@@ -162,7 +162,7 @@ export default function CategoriesForm() {
           <dl>
             <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500 col-span-2">
-                Spending category
+                Add category
               </dt>
               <dd
                 className="mt-1 text-sm text-gray-900 
