@@ -2,16 +2,26 @@
 import { formatUSD } from "../lib/utils";
 import { useContext } from "react";
 import { UserSettings } from "../context/userContext";
-export default async function SpendingBarInfo({ totalSpending }) {
+import { ExpensesCtx } from "../context/expensesContext";
 
-  if(!totalSpending) return null;
-
+export default function SpendingBarInfo( ) {
   const { settings } = useContext(UserSettings);
+  const { expenses } = useContext(ExpensesCtx);
+
+  
+  //get total spending amount from the expenses adding all the 'amount' fields
+  const total = expenses
+    .reduce((acc, expense) => {
+      return acc + parseFloat(expense.amount);
+    }, 0)
+    .toFixed(2);
+
+  if (!total) return null;
 
   const monthlyBudget = settings.budget;
 
   const percentageSpent = Math.ceil(
-    ((totalSpending / monthlyBudget) * 100)
+    (total / monthlyBudget) * 100
   )?.toFixed(2);
 
   let spendingBarBGcolor = "#1976D2";
@@ -24,7 +34,7 @@ export default async function SpendingBarInfo({ totalSpending }) {
   }
 
   return (
-    <div>
+    <div className="pt-6">
       <div className="text-xs text-zinc-500 mb-2">
         {percentageSpent}% of total budget spent
       </div>
@@ -38,7 +48,7 @@ export default async function SpendingBarInfo({ totalSpending }) {
         ></div>
       </div>
       <div>
-        {formatUSD(Math.ceil(totalSpending))} of{" "}
+        {formatUSD(Math.ceil(total))} of{" "}
         {formatUSD(Math.ceil(monthlyBudget))} spent
       </div>
     </div>

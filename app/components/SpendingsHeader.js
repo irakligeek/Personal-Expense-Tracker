@@ -1,13 +1,13 @@
-"use client";
+"use client"
 import Select from "react-select"; //https://react-select.com/styles
 import Button from "./ui/Button";
 import { getCurrentMonthDates } from "../lib/lib";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { ExpensesCtx } from "../context/expensesContext";
 
 export default function SpendingsHeader() {
-
-  const { expenses, setExpenses } = useContext(ExpensesCtx);
+  const { expenses, setExpenses, setSpendingsDate } = useContext(ExpensesCtx);
+  const [loading, setLoading] = useState(false);
 
   const options = [
     { value: "January", label: "January" },
@@ -43,39 +43,60 @@ export default function SpendingsHeader() {
     (option) => option.value === currentYear
   );
 
-  const handleFormSubmit = async (e) => {
+  const fetchSpendings = (startDate, endDate, year) => {
+
+    //Call the /expenses API to get the spendings for the selected month and year
+    fetch(
+      `/api/expenses?date_start=${startDate}&date_end=${endDate}&year=${year}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        next: { tags: ["expenses"] },
+        // next: { revalidate: 1 }, //@todo, remove this in prod. For testing ONLY
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        if (data && data?.result) {
+          setExpenses(data.result);
+        }
+    
+      })
+      .catch((error) => {
+        console.error("Error", error);
+        return false;
+      });
+    
+  };
+
+  const handleFormSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
+
     const formData = new FormData(e.target);
     const month = formData.get("month");
     const year = formData.get("year");
-    //convert month into a number
+
     const date = new Date(month + " 1, 1970");
     const monthNumber = date.getMonth() + 1; // JavaScript months are 0-indexed
     const [monthStart, monthEnd] = getCurrentMonthDates(monthNumber);
+    setSpendingsDate({
+      month: month,
+      year: year,
+    });
+    
+    fetchSpendings(monthStart, monthEnd, year);
 
-    //Call the /expenses API to get the spendings for the selected month and year
-    try {
-      const response = await fetch(
-        `/api/expenses?date_start=${monthStart}&date_end=${monthEnd}&year=${year}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          next: { tags: ["expenses"] },
-          // next: { revalidate: 1 }, //@todo, remove this in prod. For testing ONLY
-        }
-      );
-
-      const data = await response.json();
-
-      if(data && data.result){
-        setExpenses(data.result);
-      }
-    } catch (error) {
-      console.error("Error", error);
-    }
+    setTimeout(() => {
+      setLoading(false);
+    }, 100);
+    
   };
+
+
+  console.log("loading", loading);
 
   return (
     <header className="py-4 px-6 flex md:items-center gap-4 md:flex-row flex-col items-start">
@@ -92,15 +113,20 @@ export default function SpendingsHeader() {
             defaultValue={defaultOption}
             placeholder={defaultOption.label}
             name="month"
+            id="month"
+            instanceId="month-select"
           />
+
           <Select
             options={optionsYears}
             defaultValue={defaultOptionYears}
             placeholder={defaultOptionYears.label}
             name="year"
+            id="year"
+            instanceId="year-select"
           />
         </div>
-        <Button>Apply</Button>
+        <Button loadingManually={loading}>Apply</Button>
       </form>
     </header>
   );

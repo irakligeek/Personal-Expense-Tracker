@@ -4,22 +4,21 @@ import { PieChart } from "react-minimal-pie-chart"; //https://www.npmjs.com/pack
 import { getSpendingsByCategory } from "../lib/lib";
 import { UserSettings } from "../context/userContext";
 import { useContext } from "react";
-// import ExpensesCtx from "../context/expensesContext";
+import { ExpensesCtx } from "../context/expensesContext";
 
 // This component will render a pie chart of the user's spending by category,
 //filtering out categories with no spending
-export default function SpendingChart({ month, spendingData }) {
+export default function SpendingChart() {
+  
   const { settings } = useContext(UserSettings);
-  // const {expenses} = useContext(ExpensesCtx);
-
+  const { expenses, spendingsDate } = useContext(ExpensesCtx);
   const userCategories = settings.categories;
-
-  const totalMonthlySpendings = getSpendingsByCategory(spendingData);
+  const totalMonthlySpendings = getSpendingsByCategory(expenses);
 
   if (totalMonthlySpendings.length === 0) {
     return <p className="text-gray-500">No spending for this month 👍</p>;
   }
-  
+
   const chartData = totalMonthlySpendings.map((data) => {
     const color = userCategories.find(
       (item) => item.name.toLowerCase() === data.name.toLowerCase()
@@ -36,6 +35,8 @@ export default function SpendingChart({ month, spendingData }) {
     .reduce((total, item) => total + parseFloat(item.amount), 0)
     .toFixed(2);
 
+    
+
   return (
     <div className="max-w-96 relative">
       <div
@@ -43,7 +44,7 @@ export default function SpendingChart({ month, spendingData }) {
       text-center h-[60px] flex flex-col items-center justify-center bg-white"
       >
         <span className="block border-b border-zinc-200 pb-1 text-sm md:text-base">
-          Total {month} spending
+          Total {spendingsDate.month} spending
         </span>
         <span className="pt-1 block text-xl md:text-2xl">
           {formatUSD(Math.ceil(totalSpending))}

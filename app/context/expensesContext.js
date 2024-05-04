@@ -1,45 +1,21 @@
 "use client";
-import { createContext, useEffect, useState } from "react";
-import { getCurrentMonthDates } from "../lib/lib";
+import { createContext, useState } from "react";
+
 export const ExpensesCtx = createContext([]);
 
-async function fetchSpendings(startDate, endDate) {
-  try {
-    const response = await fetch(
-      `/api/expenses?date_start=${startDate}&date_end=${endDate}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        next: {
-          tags: ["expenses"],
-          //revalidate: 1
-        },
-      }
-    );
-
-    const spendings = await response.json();
-
-    return spendings;
-  } catch (error) {
-    console.error("Error", error);
-  }
-}
-
-export default function ExpensesContext({ children }) {
-  const [expenses, setExpenses] = useState([]);
-
-  useEffect(() => {
-    const [monthStart, monthEnd] = getCurrentMonthDates();
-    async function getData() {
-      const data = await fetchSpendings(monthStart, monthEnd);
-      setExpenses(data);
-    }
-    getData();
-  }, []);
+export default function ExpensesContext({ children, data }) {
+  const expensesData = data?.result || [];
+  const [expenses, setExpenses] = useState(expensesData);
+  const [spendingsDate, setSpendingsDate] = useState({
+    year: new Date().getFullYear(),
+    month: new Date().toLocaleString("en-US", { month: "long" }),
+  });
 
   return (
-    <ExpensesCtx.Provider value={{ expenses, setExpenses }}>{children}</ExpensesCtx.Provider>
+    <ExpensesCtx.Provider
+      value={{ expenses, setExpenses, spendingsDate, setSpendingsDate }}
+    >
+      {children}
+    </ExpensesCtx.Provider>
   );
 }

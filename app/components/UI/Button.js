@@ -40,7 +40,6 @@ export default function Button({
             stroke={variant == "ghost" ? "#000" : "#fff"}
             width={18}
           />
-          <span>{children}</span>
         </span>
       ) : (
         <span>{children}</span>

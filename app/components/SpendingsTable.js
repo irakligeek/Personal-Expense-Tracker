@@ -1,11 +1,18 @@
 "use client";
-import Panel from "./ui/Panel";
+import { useContext } from "react";
+import { ExpensesCtx } from "../context/expensesContext";
 import SpendingByCategory from "./SpendingByCategory";
 import HeadingMain from "./ui/HeadingMain";
 import { getSpendingsByCategory } from "../lib/lib";
 import Subheading from "./ui/Subheading";
-export default function SpendingsTable({ spendings }) {
-  const spendingsByCategory = getSpendingsByCategory(spendings);
+export default function SpendingsTable() {
+
+  const { expenses } = useContext(ExpensesCtx);
+
+  if(expenses.length === 0 ) return null;
+
+  const spendingsByCategory = getSpendingsByCategory(expenses);
+  
 
   return (
     <>
@@ -36,7 +43,7 @@ export default function SpendingsTable({ spendings }) {
             amount={data.amount}
             index={index}
             spendingByCategories={spendingsByCategory}
-            spendings={spendings}
+            spendings={expenses}
           />
         ))}
     </>

@@ -33,7 +33,8 @@ export default function RootLayout({ children }) {
            bg-backgroundDark"
           >
             <SidebarMenu />
-            <section className="m-auto mt-6 mb-6 w-full md:max-w-[768px] md:px-0 px-3">
+            <section className="mt-6 mb-6 md:w-[95%] md:max-w-[768px] 
+              md:px-0 px-3 flex self-start flex-col justify-self-center">
               {children}
             </section>
           </main>

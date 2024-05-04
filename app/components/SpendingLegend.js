@@ -2,9 +2,13 @@
 import { formatUSD } from "../lib/utils";
 import { UserSettings } from "../context/userContext";
 import { useContext } from "react";
+import { ExpensesCtx } from "../context/expensesContext";
+import { getSpendingsByCategory } from "../lib/lib";
 
-export default function SpendingLegend({spendingData}) {
+export default function SpendingLegend() {
   const { settings } = useContext(UserSettings);
+  const { expenses } = useContext(ExpensesCtx);
+  const spendingData = getSpendingsByCategory(expenses);
   const userCategories = settings.categories;
   
   return (
