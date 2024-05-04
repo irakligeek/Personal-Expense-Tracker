@@ -22,6 +22,7 @@ export async function GET(request) {
   const dateEnd = searchParams.get("date_end");
   const category = searchParams.get("category");
   const dateFrom = new Date(dateStart);
+  const year = searchParams.get("year");
   dateFrom.setUTCHours(0, 0, 0, 0); // start of the day in UTC
   const dateTo = new Date(dateEnd);
   dateTo.setUTCHours(23, 59, 59, 999); // end of the day in UTC
@@ -44,6 +45,11 @@ export async function GET(request) {
     });
   }
 
+  //pass year to the query if it is provided
+  if (year) {
+    dateFrom.setFullYear(year);
+    dateTo.setFullYear(year);
+  }
   // Create MongoDB query to get spendings
   let findQurey = {
     userId: userId,
@@ -68,6 +74,7 @@ export async function GET(request) {
       .find(findQurey)
       .sort({ date: -1 })
       .toArray();
+
     return Response.json({ result });
   } catch (error) {
     console.error("Error occurred while getting spendings: ", error);

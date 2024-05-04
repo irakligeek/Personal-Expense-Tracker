@@ -4,11 +4,14 @@ import { PieChart } from "react-minimal-pie-chart"; //https://www.npmjs.com/pack
 import { getSpendingsByCategory } from "../lib/lib";
 import { UserSettings } from "../context/userContext";
 import { useContext } from "react";
+// import ExpensesCtx from "../context/expensesContext";
 
 // This component will render a pie chart of the user's spending by category,
 //filtering out categories with no spending
 export default function SpendingChart({ month, spendingData }) {
   const { settings } = useContext(UserSettings);
+  // const {expenses} = useContext(ExpensesCtx);
+
   const userCategories = settings.categories;
 
   const totalMonthlySpendings = getSpendingsByCategory(spendingData);

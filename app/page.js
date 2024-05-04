@@ -9,6 +9,7 @@ import UserSettingsCtx from "./context/userContext";
 import Subheading from "./components/ui/Subheading";
 import AddExpenseButton from "./components/AddExpenseButton";
 import SpendingsHeader from "./components/SpendingsHeader";
+import ExpensesContext from "./context/expensesContext";
 
 export default async function Home() {
   const currentMonth = new Date().toLocaleString("en-US", { month: "long" });
@@ -80,48 +81,49 @@ export default async function Home() {
 
   return (
     <UserSettingsCtx settings={settings}>
-      <div className="w-full flex justify-end mb-4">
-        <AddExpenseButton>Add Expense</AddExpenseButton>
-      </div>
+      <ExpensesContext>
+        <div className="w-full flex justify-end mb-4">
+          <AddExpenseButton>Add Expense</AddExpenseButton>
+        </div>
+        <Panel>
+          <SpendingsHeader />
+        </Panel>
+        <Panel classes="flex flex-col max-w-2xl">
+          {totalMonthlySpendings.length === 0 ? (
+            <p className="text-gray-500 py-10 px-8">
+              No spendings for this month 👍
+            </p>
+          ) : (
+            <>
+              <div className="section-padding border-b border-gray-200">
+                <header>
+                  <HeadingMain>Total spending</HeadingMain>
+                  <Subheading>
+                    Your spendings for the current month ({currentMonth})
+                  </Subheading>
+                </header>
 
-      <Panel>
-        <SpendingsHeader/>
-      </Panel>
-      <Panel classes="flex flex-col max-w-2xl">
-        {totalMonthlySpendings.length === 0 ? (
-          <p className="text-gray-500 py-10 px-8">
-            No spendings for this month 👍
-          </p>
-        ) : (
-          <>
-            <div className="section-padding border-b border-gray-200">
-              <header>
-                <HeadingMain>Total spending</HeadingMain>
-                <Subheading>
-                  Your spendings for the current month ({currentMonth})
-                </Subheading>
-              </header>
+                <div className="flex flex-row justify-between flex-wrap gap-6 md:gap-8">
+                  <SpendingChart
+                    month={currentMonth}
+                    monthylSpendingData={allSpending}
+                  />
+                  <SpendingLegend spendingData={totalMonthlySpendings} />
+                </div>
 
-              <div className="flex flex-row justify-between flex-wrap gap-6 md:gap-8">
-                <SpendingChart
-                  month={currentMonth}
-                  monthylSpendingData={allSpending}
-                />
-                <SpendingLegend spendingData={totalMonthlySpendings} />
+                <SpendingBarInfo totalSpending={totalSpending} />
               </div>
 
-              <SpendingBarInfo totalSpending={totalSpending} />
-            </div>
-
-            <div className="section-padding">
-              <SpendingsTable
-                spendingsByCategory={totalMonthlySpendings}
-                spendings={allSpending}
-              />
-            </div>
-          </>
-        )}
-      </Panel>
+              <div className="section-padding">
+                <SpendingsTable
+                  spendingsByCategory={totalMonthlySpendings}
+                  spendings={allSpending}
+                />
+              </div>
+            </>
+          )}
+        </Panel>
+      </ExpensesContext>
     </UserSettingsCtx>
   );
 }

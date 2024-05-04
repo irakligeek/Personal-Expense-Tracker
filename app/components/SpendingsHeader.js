@@ -2,8 +2,13 @@
 import Select from "react-select"; //https://react-select.com/styles
 import Button from "./ui/Button";
 import { getCurrentMonthDates } from "../lib/lib";
+import { useContext } from "react";
+import { ExpensesCtx } from "../context/expensesContext";
 
 export default function SpendingsHeader() {
+
+  const { expenses, setExpenses } = useContext(ExpensesCtx);
+
   const options = [
     { value: "January", label: "January" },
     { value: "February", label: "February" },
@@ -48,26 +53,28 @@ export default function SpendingsHeader() {
     const monthNumber = date.getMonth() + 1; // JavaScript months are 0-indexed
     const [monthStart, monthEnd] = getCurrentMonthDates(monthNumber);
 
-    // //Call the /expenses API to get the spendings for the selected month and year
-    // try {
-    //   const response = await fetch(
-    //     `/api/expenses?date_start=${monthStart}&date_end=${monthEnd}&year=${year}`,
-    //     {
-    //       method: "GET",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       next: { tags: ["expenses"] },
-    //       // next: { revalidate: 1 }, //@todo, remove this in prod. For testing ONLY
-    //     }
-    //   );
+    //Call the /expenses API to get the spendings for the selected month and year
+    try {
+      const response = await fetch(
+        `/api/expenses?date_start=${monthStart}&date_end=${monthEnd}&year=${year}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          next: { tags: ["expenses"] },
+          // next: { revalidate: 1 }, //@todo, remove this in prod. For testing ONLY
+        }
+      );
 
-    //   const spendings = await response.json();
+      const data = await response.json();
 
-    //   return spendings;
-    // } catch (error) {
-    //   console.error("Error", error);
-    // }
+      if(data && data.result){
+        setExpenses(data.result);
+      }
+    } catch (error) {
+      console.error("Error", error);
+    }
   };
 
   return (

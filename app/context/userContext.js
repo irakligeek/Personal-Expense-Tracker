@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useEffect, useState } from "react";
+import { createContext } from "react";
 
 export const UserSettings = createContext([]);
 
