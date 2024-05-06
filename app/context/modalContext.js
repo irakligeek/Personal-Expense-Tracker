@@ -7,7 +7,9 @@ export default function ModalProvider({ children }) {
   const [isModalClose, setModalClose] = useState(false);
 
   return (
-    <ModalContext.Provider value={{ isModalClose, setModalClose }}>
+    <ModalContext.Provider
+      value={{ isModalClose, setModalClose }}
+    >
       {children}
     </ModalContext.Provider>
   );

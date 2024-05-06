@@ -12,7 +12,9 @@ export default function SpendingByCategory({
   amount,
   index,
   spendings,
+  isReoccuring,
 }) {
+
   const { settings } = useContext(UserSettings);
 
   const userCategories = settings.categories;

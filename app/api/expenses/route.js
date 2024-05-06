@@ -75,6 +75,17 @@ export async function GET(request) {
       .sort({ date: -1 })
       .toArray();
 
+    //Get the reoccuring expenses from the reoccurringExpenses collection
+    const reoccurringExpenses = await client
+      .db(DB_NAME)
+      .collection(COLLECTION_NAME_REOCCURRING_EXPENSES)
+      .find({ userId: userId })
+      .sort({ date: -1 })
+      .toArray();
+
+    //Add the reoccurring expenses to the result
+    result.push(...reoccurringExpenses);
+
     return Response.json({ result });
   } catch (error) {
     console.error("Error occurred while getting spendings: ", error);

@@ -94,10 +94,7 @@ export default function SpendingsHeader() {
     }, 100);
     
   };
-
-
-  console.log("loading", loading);
-
+  
   return (
     <header className="py-4 px-6 flex md:items-center gap-4 md:flex-row flex-col items-start">
       <p className="text-gray-400 text-sm">Showing:</p>

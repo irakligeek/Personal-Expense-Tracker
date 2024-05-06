@@ -11,10 +11,11 @@ import AddExpenseButton from "./components/AddExpenseButton";
 import SpendingsHeader from "./components/SpendingsHeader";
 import ExpensesContext from "./context/expensesContext";
 
+const base_url = process.env.BASE_URL;
+
 export default async function Home() {
   //@todo get reoccuring monthly expenses
   
-  const base_url = process.env.BASE_URL;
   async function fetchSettings() {
     try {
       const response = await fetch(`${base_url}/api/settings/`, {
@@ -67,13 +68,13 @@ export default async function Home() {
         <div className="w-full flex justify-end mb-4">
           <AddExpenseButton>Add Expense</AddExpenseButton>
         </div>
-        <Panel>
+        <Panel className="min-h-0">
           <SpendingsHeader />
         </Panel>
         <Panel classes="flex flex-col max-w-2xl">
           <div className="section-padding">
             <header>
-              <HeadingMain>Total spending</HeadingMain>
+              <HeadingMain>Total spendings</HeadingMain>
               <Subheading>
                 Your spendings summary
               </Subheading>

@@ -5,6 +5,16 @@ module.exports = {
   ],
   theme: {
     extend: {
+      animation: {
+        'gradient-x':'gradient-x 2s ease infinite',
+      },
+      keyframes: {
+        'gradient-x': {
+          '0%': { backgroundColor: '#f56565' },
+          '50%': { backgroundColor: 'ffffff' },
+          '100%': { backgroundColor: '#f56565' },
+        },
+      },
       fontFamily: {
         'roboto': ['Roboto', 'sans-serif'],
         'open-sans': ['Open Sans', 'sans-serif']

@@ -2,25 +2,20 @@
 import { useContext } from "react";
 import { ExpensesCtx } from "../context/expensesContext";
 import SpendingByCategory from "./SpendingByCategory";
-import HeadingMain from "./ui/HeadingMain";
 import { getSpendingsByCategory } from "../lib/lib";
-import Subheading from "./ui/Subheading";
-export default function SpendingsTable() {
 
+export default function SpendingsTable() {
   const { expenses } = useContext(ExpensesCtx);
 
-  if(expenses.length === 0 ) return null;
+  if (expenses.length === 0) return null;
 
   const spendingsByCategory = getSpendingsByCategory(expenses);
-  
 
   return (
     <>
-      <HeadingMain>Spendings by categories</HeadingMain>
-      <Subheading>Your spendings in details by category</Subheading>
       <div
-        className={`border-b border-zinc-200 last:border-none flex justify-between 
-        py-4 mb-4 text-sm text-secondary`}
+        className={`border-b border-zinc-200 border-t border-t-gray-200 
+        last:border-none flex justify-between py-4 mb-4 text-sm text-secondary`}
       >
         <div className="grid grid-cols-[1fr_0.5fr_0.5fr]">
           <b>Category</b>
@@ -44,6 +39,7 @@ export default function SpendingsTable() {
             index={index}
             spendingByCategories={spendingsByCategory}
             spendings={expenses}
+            isReoccuring={data?.reoccuringFrequency}
           />
         ))}
     </>

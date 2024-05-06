@@ -19,14 +19,12 @@ export default function SidebarMenu() {
      fixed left-0 top-auto h-full z-50 w-[120px] ${
        isMobileMenuOpen ? "translate-x-0" : "translate-x-[-120px]"
      }`}
-      >
-        {/* <CloseButton onClick={() => setMobileMenuOpen(false)}/> */}
-          
+      >   
         <ul className="flex flex-col">
           <SideBarMenuItem link="/">Dashboard</SideBarMenuItem>
           <SideBarMenuItem link="/budget">Budget</SideBarMenuItem>
           <SideBarMenuItem link="/categories">Categories</SideBarMenuItem>
-          <SideBarMenuItem link="/reports">Expenses</SideBarMenuItem>
+          <SideBarMenuItem link="/reoccuring-expenses">Reoccuring</SideBarMenuItem>
         </ul>
       </nav>
     </>

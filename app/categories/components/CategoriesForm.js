@@ -7,6 +7,7 @@ import { useState, useRef, useEffect } from "react";
 import { saveCategories } from "@/app/actions/save-settings/actions";
 import { useFormState } from "react-dom";
 import UserNotification from "@/app/components/UserNotification";
+import { IoTrashOutline } from "react-icons/io5";
 
 const defaultCategoryColor = "#FFC107";
 const initialErrorState = {
@@ -222,7 +223,8 @@ export default function CategoriesForm() {
                           handleCategoryDelete(e, index);
                         }}
                       >
-                        Delete
+                        
+                        <IoTrashOutline className="text-lg" />
                       </Button>
 
                       <Input

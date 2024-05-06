@@ -6,25 +6,23 @@ import { ModalContext } from "@/app/context/modalContext";
 
 export function Modal({ children }) {
   const { isModalClose, setModalClose } = useContext(ModalContext);
-  const timeToCloseModal  = 4; //seconds to close
+  const timeToCloseModal = 4; //seconds to close
   const router = useRouter();
   const dialogRef = useRef(null);
   const [isOpen, setIsOpen] = useState(true);
 
-  //Close modal in 3 seconds if isModalClose is true, then redirect to home page. 
+  //Close modal in 3 seconds if isModalClose is true, then redirect to home page.
   useEffect(() => {
-    
     if (isModalClose) {
       setTimeout(() => {
         setModalClose(false);
         setIsOpen(false);
-        router.push("/");
+
+        router.back(); //Navigagte back
         router.refresh(); //refresh the page to get the latest data
       }, timeToCloseModal * 1000);
     }
-    
   }, [isModalClose]);
-  
 
   return createPortal(
     isOpen ? (
@@ -38,7 +36,7 @@ export function Modal({ children }) {
             p-5 relative flex justify-center items-start"
         >
           {children}
-          
+
           <button
             onClick={() => {
               setIsOpen(false);

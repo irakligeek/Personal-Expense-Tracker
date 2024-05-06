@@ -16,11 +16,29 @@
   }
 }
 
-html, body, h1, h2, h3, h4, h5, h6, p, a, li, button, input, textarea {
+html,
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+li,
+button,
+input,
+textarea {
   font-family: var(--font-open-sans);
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-roboto);
 }
 
@@ -33,34 +51,71 @@ body {
     text-wrap: balance;
   }
   .section-padding {
-    @apply px-4 py-5 sm:px-6; 
+    @apply px-4 py-5 sm:px-6;
   }
 
   .fade-in {
     animation: fadeIn 0.5s forwards;
   }
-  
+
   .fade-out {
     animation: fadeOut 0.5s forwards;
   }
-  
+
   @keyframes fadeIn {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
   }
-  
+
   @keyframes fadeOut {
-    0% { opacity: 1; }
-    100% { opacity: 0; }
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
   }
+
+  /* .animate-gradient {
+    @apply absolute top-0 left-0 w-full h-full;
+    
+    background: linear-gradient(
+      45deg,
+      rgba(var(--background-start-rgb), 1) 0%,
+      rgba(248, 248, 248, 1), 100%
+    );
+    background-size: 300% 300%;
+    animation: color 10s ease-in-out infinite;
+  }
+  @keyframes color {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  } */
+  
 }
 
 @layer base {
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-semibold;
   }
 
-  h1{
+  h1 {
     @apply text-4xl;
   }
   h2 {
@@ -72,15 +127,20 @@ body {
   h4 {
     @apply text-xl;
   }
-  h5, h6 {
+  h5,
+  h6 {
     @apply text-lg;
   }
-  p, a, li, button, input, textarea {
+  p,
+  a,
+  li,
+  button,
+  input,
+  textarea {
     @apply text-base;
   }
 
-  a{
+  a {
     @apply text-blue-500;
   }
-  
 }
