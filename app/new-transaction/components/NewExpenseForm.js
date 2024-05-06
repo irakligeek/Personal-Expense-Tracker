@@ -113,9 +113,9 @@ export default function NewExpenseForm() {
 
       <form onSubmit={handleSubmit} ref={formRef}>
         <div className="section-padding">
-          <HeadingMain>Add Expense</HeadingMain>
+          <HeadingMain>Add Transaction</HeadingMain>
           <Subheading>
-            Add your spending amount, category and optional name
+            Add your transaction amount, category and optional name
           </Subheading>
           <div className="sm:grid sm:grid-cols-[0.5fr_1fr] gap-4 flex flex-col">
             <div className="space-y-2">
@@ -305,7 +305,7 @@ export default function NewExpenseForm() {
             loading={true}
             loadingManually={isLoading}
           >
-            Add Expense
+            Add Transaction
           </Button>
         </div>
         <input

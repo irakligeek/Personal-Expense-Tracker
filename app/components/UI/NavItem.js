@@ -1,13 +1,12 @@
 import { IoSettingsOutline } from "react-icons/io5";
 import {
-  MdOutlineFileCopy,
   MdOutlineEventRepeat
 } from "react-icons/md";
 import { BiCategoryAlt } from "react-icons/bi";
 import { TbBrandGoogleAnalytics } from "react-icons/tb";
 import { BiCoinStack } from "react-icons/bi";
 import { usePathname } from "next/navigation";
-import { BsArrowRepeat } from "react-icons/bs";
+import { CiCirclePlus } from "react-icons/ci";
 
 import Link from "next/link";
 export default function SideBarMenuItem({ children, link }) {
@@ -30,6 +29,8 @@ export default function SideBarMenuItem({ children, link }) {
         {children === "Budget" && <BiCoinStack className="text-2xl" />}
         {children === "Categories" && <BiCategoryAlt className="text-2xl" />}
         {children === "Reoccuring" && <MdOutlineEventRepeat className="text-2xl" />}
+        {children === "Add New" && <CiCirclePlus  className="text-2xl" />}
+        
         <span>{children}</span>
       </Link>
     </li>

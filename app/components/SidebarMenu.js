@@ -1,10 +1,7 @@
 "use client";
-
 import SideBarMenuItem from "./ui/NavItem";
 import { useContext } from "react";
 import { HeaderContext } from "../context/context";
-import { IoCloseOutline } from "react-icons/io5";
-import CloseButton from "./ui/CloseButton";
 
 export default function SidebarMenu() {
   // We need to use header context here to toggle the mobile menu
@@ -24,7 +21,8 @@ export default function SidebarMenu() {
           <SideBarMenuItem link="/">Dashboard</SideBarMenuItem>
           <SideBarMenuItem link="/budget">Budget</SideBarMenuItem>
           <SideBarMenuItem link="/categories">Categories</SideBarMenuItem>
-          <SideBarMenuItem link="/reoccuring-expenses">Reoccuring</SideBarMenuItem>
+          <SideBarMenuItem link="/reoccuring-transactions">Reoccuring</SideBarMenuItem>
+          <SideBarMenuItem link="/new-transaction">Add New</SideBarMenuItem>
         </ul>
       </nav>
     </>

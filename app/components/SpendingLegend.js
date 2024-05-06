@@ -24,7 +24,7 @@ export default function SpendingLegend() {
           >
             <span
               style={{ backgroundColor: color || "#000"}}
-              className={`w-6 h-6 inline-block mr-2`}
+              className={`w-6 h-6 inline-block mr-2 rounded-full`}
             ></span>
             <span>
               <b>{category.name}</b>: {formatUSD(category.amount)}

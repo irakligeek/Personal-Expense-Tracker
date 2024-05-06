@@ -10,7 +10,7 @@ export default function AddNewButton() {
       className={`h-12 gap-4 border border-zinc-300 self-end`}
       onClick={(e) => {
         e.preventDefault();
-        router.push("/new-expense");
+        router.push("/new-transaction");
       }}
     >
       <span className="flex justify-center items-center gap-2">

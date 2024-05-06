@@ -3,6 +3,7 @@ import "./globals.css";
 import HeaderMain from "./components/HeaderMain";
 import SidebarMenu from "./components/SidebarMenu";
 import Context from "./context/context";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -24,6 +25,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
+    <ClerkProvider>
+
     <html lang="en" className={`${roboto.variable} ${open_sans.variable}`}>
       <body>
         <Context>
@@ -43,5 +46,6 @@ export default function RootLayout({ children }) {
         <div id="modal-root" />
       </body>
     </html>
+    </ClerkProvider>
   );
 }

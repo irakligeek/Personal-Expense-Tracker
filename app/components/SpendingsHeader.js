@@ -1,15 +1,14 @@
-"use client"
+"use client";
 import Select from "react-select"; //https://react-select.com/styles
 import Button from "./ui/Button";
 import { getCurrentMonthDates } from "../lib/lib";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { ExpensesCtx } from "../context/expensesContext";
 
 export default function SpendingsHeader() {
-  const { expenses, setExpenses, setSpendingsDate } = useContext(ExpensesCtx);
-  const [loading, setLoading] = useState(false);
-
-  const options = [
+  // get current month
+  const currentMonth = new Date().toLocaleString("en-US", { month: "long" });
+  const allMonths = [
     { value: "January", label: "January" },
     { value: "February", label: "February" },
     { value: "March", label: "March" },
@@ -23,13 +22,20 @@ export default function SpendingsHeader() {
     { value: "November", label: "November" },
     { value: "December", label: "December" },
   ];
-  // get current month
-  const currentMonth = new Date().toLocaleString("en-US", { month: "long" });
   // find the option that matches the current month
-  const defaultOption = options.find((option) => option.value === currentMonth);
+  const defaultOption = allMonths.find(
+    (option) => option.value === currentMonth
+  );
 
   const startYear = 2022;
+  const currentDate = new Date();
   const currentYear = new Date().getFullYear();
+
+  const { expenses, setExpenses, setSpendingsDate } = useContext(ExpensesCtx);
+  const [loading, setLoading] = useState(false);
+  const [selectedYear, setSelectedYear] = useState(currentYear);
+  const [options, setOptions] = useState(allMonths);
+
 
   const optionsYears = Array.from(
     { length: currentYear - startYear + 1 },
@@ -43,8 +49,19 @@ export default function SpendingsHeader() {
     (option) => option.value === currentYear
   );
 
-  const fetchSpendings = (startDate, endDate, year) => {
+  
+  useEffect(() => {
+    if (selectedYear === currentYear) {
+      setOptions(allMonths.slice(
+        0,
+        allMonths.findIndex((month) => month.value === currentMonth) + 1
+      ));
+    } else {
+      setOptions(allMonths);
+    }
+  }, [selectedYear, currentYear, currentMonth]);
 
+  const fetchSpendings = (startDate, endDate, year) => {
     //Call the /expenses API to get the spendings for the selected month and year
     fetch(
       `/api/expenses?date_start=${startDate}&date_end=${endDate}&year=${year}`,
@@ -62,13 +79,11 @@ export default function SpendingsHeader() {
         if (data && data?.result) {
           setExpenses(data.result);
         }
-    
       })
       .catch((error) => {
         console.error("Error", error);
         return false;
       });
-    
   };
 
   const handleFormSubmit = (e) => {
@@ -86,21 +101,20 @@ export default function SpendingsHeader() {
       month: month,
       year: year,
     });
-    
+
     fetchSpendings(monthStart, monthEnd, year);
 
     setTimeout(() => {
       setLoading(false);
     }, 100);
-    
   };
-  
+
   return (
     <header className="py-4 px-6 flex md:items-center gap-4 md:flex-row flex-col items-start">
       <p className="text-gray-400 text-sm">Showing:</p>
       <form
         action=""
-        className="flex md:flex-row justify-start md:items-center gap-5 flex-col"
+        className="flex justify-start md:items-center gap-5 flex-col sm:flex-row "
         onSubmit={handleFormSubmit}
       >
         <div className="flex gap-4">
@@ -121,9 +135,18 @@ export default function SpendingsHeader() {
             name="year"
             id="year"
             instanceId="year-select"
+            onChange={(selectedOption) => {
+              setSelectedYear(selectedOption.value);
+            }}
           />
         </div>
-        <Button loadingManually={loading}>Apply</Button>
+        <Button
+          loadingManually={loading}
+          variant={"ghost"}
+          className={`gap-4 border border-zinc-300 self-start w-full sm:w-auto h-full`}
+        >
+          Apply
+        </Button>
       </form>
     </header>
   );

@@ -19,6 +19,7 @@ const booleanSchema = z.boolean();
 export async function GET(request) {
   const searchParams = request.nextUrl.searchParams;
   const dateStart = searchParams.get("date_start");
+
   const dateEnd = searchParams.get("date_end");
   const category = searchParams.get("category");
   const dateFrom = new Date(dateStart);
@@ -75,11 +76,16 @@ export async function GET(request) {
       .sort({ date: -1 })
       .toArray();
 
-    //Get the reoccuring expenses from the reoccurringExpenses collection
+    //make sure reccouring expense date is within the date range
+    const reoccuringQuery = {
+      userId: userId,
+      date: { $lte: dateTo },
+    };
+
     const reoccurringExpenses = await client
       .db(DB_NAME)
       .collection(COLLECTION_NAME_REOCCURRING_EXPENSES)
-      .find({ userId: userId })
+      .find(reoccuringQuery)
       .sort({ date: -1 })
       .toArray();
 

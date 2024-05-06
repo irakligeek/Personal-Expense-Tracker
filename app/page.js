@@ -66,9 +66,9 @@ export default async function Home() {
     <UserSettingsCtx settings={settings}>
       <ExpensesContext data={spendings}>
         <div className="w-full flex justify-end mb-4">
-          <AddExpenseButton>Add Expense</AddExpenseButton>
+          <AddExpenseButton />
         </div>
-        <Panel className="min-h-0">
+        <Panel className="min-h-1">
           <SpendingsHeader />
         </Panel>
         <Panel classes="flex flex-col max-w-2xl">

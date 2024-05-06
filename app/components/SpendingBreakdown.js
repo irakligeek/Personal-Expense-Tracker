@@ -43,8 +43,8 @@ export default function SpendingBreakdown({ spendingDetails }) {
                 {detail.reoccuringFrequency ? (
                   <span className="text-xs text-gray-400">
                     <BsArrowRepeat className="inline-block mr-2 text-lg" />
-                    {detail.reoccuringFrequency.charAt(0).toUpperCase() +
-                      detail.reoccuringFrequency.slice(1)}
+                    Reoccuring
+                    ({detail.reoccuringFrequency})
                   </span>
                 ) : (
                   new Date(detail.date).toLocaleDateString("en-US", {

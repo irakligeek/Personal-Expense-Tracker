@@ -4,10 +4,8 @@ import clientPromise from "@/app/lib/mongodb";
 import { userId } from "@/app/lib/authentication/user";
 import { revalidatePath } from "next/cache";
 const DB_NAME = process.env.DB_NAME;
-const COLLECTION_NAME_EXPENSES = process.env.COLLECTION_NAME_EXPENSES;
 const COLLECTION_NAME_REOCCURRING_EXPENSES =
   process.env.COLLECTION_NAME_REOCCURRING_EXPENSES;
-const COLLECTION_NAME_USER_SETTINGS = process.env.COLLECTION_NAME_SETTINGS;
 const { ObjectId } = require("mongodb");
 
 export async function GET(request) {
