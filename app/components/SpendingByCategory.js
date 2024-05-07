@@ -6,14 +6,9 @@ import SpendingBreakdown from "./SpendingBreakdown";
 import { UserSettings } from "../context/userContext";
 import { useContext } from "react";
 
-export default function SpendingByCategory({
-  spendingByCategories,
-  category,
-  amount,
-  index,
-  spendings,
-  isReoccuring,
-}) {
+export default function SpendingByCategory({ data }) {
+
+  const { category, amount, index, spendingByCategories, spendings, emoji } = data;
 
   const { settings } = useContext(UserSettings);
 
@@ -49,10 +44,11 @@ export default function SpendingByCategory({
           className="flex flex-row gap-2 md:gap-4 text-sm"
           onClick={() => setSpendingDetailsOpen(!spendingDetailsOpen)}
         >
-          <span
+          {emoji && <span className="text-md">{emoji}</span>}
+          {/* <span
             style={{ backgroundColor: color || "#000" }}
-            className="w-6 h-6 block"
-          ></span>
+            className="w-4 h-4 block rounded-full"
+          ></span> */}
           <span className="flex items-center gap-2 text-left">
             {category}
             <span>

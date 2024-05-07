@@ -3,13 +3,24 @@ import { useContext } from "react";
 import { ExpensesCtx } from "../context/expensesContext";
 import SpendingByCategory from "./SpendingByCategory";
 import { getSpendingsByCategory } from "../lib/lib";
+import { UserSettings } from "../context/userContext";
 
 export default function SpendingsTable() {
   const { expenses } = useContext(ExpensesCtx);
+  const { settings } = useContext(UserSettings);
+  const userCategories = settings.categories;
 
   if (expenses.length === 0) return null;
 
-  const spendingsByCategory = getSpendingsByCategory(expenses);
+  let spendingsByCategory = getSpendingsByCategory(expenses);
+
+  //add user categories emohies to the spending data
+  spendingsByCategory.forEach((category) => {
+    const userCategory = userCategories.find(
+      (item) => item.name.toLowerCase() === category.name.toLowerCase()
+    );
+    category.emoji = userCategory?.emoji;
+  });
 
   return (
     <>
@@ -34,12 +45,15 @@ export default function SpendingsTable() {
         .map((data, index) => (
           <SpendingByCategory
             key={index}
-            category={data.name}
-            amount={data.amount}
-            index={index}
-            spendingByCategories={spendingsByCategory}
-            spendings={expenses}
-            isReoccuring={data?.reoccuringFrequency}
+            data={{
+              category: data.name,
+              emoji: data.emoji,
+              amount: data.amount,
+              index: index,
+              spendingByCategories: spendingsByCategory,
+              spendings: expenses,
+              isReoccuring: data?.reoccuringFrequency,
+            }}
           />
         ))}
     </>

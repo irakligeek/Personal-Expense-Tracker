@@ -24,9 +24,11 @@ export async function saveCategories(prevState, formData) {
 
   //array of category objects with name and color properties
   let categories = formData.get("categories");
+
   if (categories) {
     categories = JSON.parse(categories);
   }
+
   //Add category named other if not present
   const otherCategory = categories.find(
     (category) => category.name.toLowerCase() === "other"
@@ -45,6 +47,17 @@ export async function saveCategories(prevState, formData) {
       error: true,
     };
   }
+
+  //Call ai to get the emojis for the categories
+  const emojis = await getAiEmojies(categories);
+  //loop through the categories and add the emoji to each category matching the emoji to the category name
+  categories = categories.map((category) => {
+    const emoji = emojis[category.name];
+    return {
+      ...category,
+      emoji,
+    };
+  });
 
   // 2. save data to database
   let result;
@@ -160,4 +173,35 @@ export async function saveBudget(prevState, formData) {
   revalidatePath("/", "layout");
 
   return response;
+}
+
+async function getAiEmojies(categories) {
+  //get names key from the categories array
+  categories = categories.map((category) => category.name);
+  const base_url = process.env.BASE_URL;
+  try {
+    const response = await fetch(`${base_url}/api/ai/generate-emojis`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        categories,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const res = await response.json();
+    if (!res) {
+      throw new Error(res.error);
+    }
+    if (res?.result) {
+      return JSON.parse(res.result);
+    }
+  } catch (error) {
+    console.error(error);
+  }
 }
