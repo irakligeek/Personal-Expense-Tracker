@@ -69,7 +69,7 @@ export default function CategoriesForm() {
     return () => clearTimeout(delay);
   }, [randomColor]);
 
-  const handleAddCategory = (e) => {
+  const handleAddCategory = async (e) => {
     e.preventDefault();
     //reset error state
     setErrorState(initialErrorState);
@@ -101,6 +101,8 @@ export default function CategoriesForm() {
       })
       .join(" ");
     const categoryColor = categoryColorRef.current.value;
+    // const categoryEmoji = await generateCategoryEmoji(categoryName);
+    // console.log("Category Emojy", categoryEmoji);
 
     setCategories([
       ...categories,
@@ -135,6 +137,36 @@ export default function CategoriesForm() {
     setErrorState(initialErrorState);
     setRandomColor(e.target.value);
   };
+
+  //Generate category emoji based on the category name posting to openai emoji API
+  // const generateCategoryEmoji = async (category) => {
+  //   try {
+  //     const response = await fetch(`/api/ai/generate-emojis`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         category,
+  //       }),
+  //     });
+
+  //     if (!response.ok) {
+  //       throw new Error(`HTTP error! status: ${response.status}`);
+  //     }
+
+  //     const res = await response.json();
+      
+  //     if (!res) {
+  //       throw new Error(res.error);
+  //     }
+  //     if (res?.result) {
+  //       return res.result;
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   let errorType;
   if (errorState?.warning) {
@@ -194,6 +226,7 @@ export default function CategoriesForm() {
                   <Button
                     className="bg-transparent"
                     variant="ghost"
+                    loading={state.pending}
                     onClick={handleAddCategory}
                   >
                     Add
@@ -223,7 +256,6 @@ export default function CategoriesForm() {
                           handleCategoryDelete(e, index);
                         }}
                       >
-                        
                         <IoTrashOutline className="text-lg" />
                       </Button>
 
@@ -244,9 +276,12 @@ export default function CategoriesForm() {
                           });
                         }}
                       />
+                      {/* Add emoji */}
+
+                      <span>{categories[index].emoji}</span>
                       <Input
                         disabled={!isCategoryEditable[index]}
-                        className="border-0 rounded-md flex flex-[1_0_38px] p-0"
+                        className="border-0 flex flex-[1_0_38px] p-0"
                         type="color"
                         value={categories[index].color}
                         onChange={(e) => {

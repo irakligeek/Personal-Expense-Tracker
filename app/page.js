@@ -10,12 +10,15 @@ import Subheading from "./components/ui/Subheading";
 import AddExpenseButton from "./components/AddExpenseButton";
 import SpendingsHeader from "./components/SpendingsHeader";
 import ExpensesContext from "./context/expensesContext";
+import Summarize from "./components/Summarize";
+import { Suspense } from "react";
+import Loading from "./components/ui/loading";
 
 const base_url = process.env.BASE_URL;
 
 export default async function Home() {
   //@todo get reoccuring monthly expenses
-  
+
   async function fetchSettings() {
     try {
       const response = await fetch(`${base_url}/api/settings/`, {
@@ -59,15 +62,18 @@ export default async function Home() {
     }
   }
   const settings = await fetchSettings();
-  
+
   const spendings = await fetchSpendings(...getCurrentMonthDates());
+
+  // console.log("spendings", spendings);
 
   return (
     <UserSettingsCtx settings={settings}>
       <ExpensesContext data={spendings}>
-        <div className="w-full flex justify-end mb-4">
-          <AddExpenseButton />
-        </div>
+        {/* <div className="w-full flex justify-end mb-4"> 
+           <AddExpenseButton /> 
+         </div> */}
+        <Summarize />
         <Panel className="min-h-1">
           <SpendingsHeader />
         </Panel>
@@ -75,9 +81,7 @@ export default async function Home() {
           <div className="section-padding">
             <header>
               <HeadingMain>Total spendings</HeadingMain>
-              <Subheading>
-                Your spendings summary
-              </Subheading>
+              <Subheading>Your spendings summary</Subheading>
             </header>
 
             <div className="flex flex-row justify-between flex-wrap gap-6 md:gap-8">

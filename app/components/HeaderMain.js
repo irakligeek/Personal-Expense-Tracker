@@ -1,5 +1,4 @@
 "use client";
-import { BiSpreadsheet } from "react-icons/bi";
 import { MdLogout } from "react-icons/md";
 import Link from "next/link";
 import { AiOutlineMenu } from "react-icons/ai";
@@ -20,8 +19,7 @@ export default function HeaderMain() {
         onClick={() => {
           setMobileMenuOpen(!isMobileMenuOpen);
         }}
-        className="md:hidden h-full
-       flex justify-center items-center "
+        className="md:hidden h-full flex justify-center items-center "
       >
         <AiOutlineMenu className="text-3xl font-bold text-zinc-700" />
       </button>

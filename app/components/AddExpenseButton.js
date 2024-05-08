@@ -1,12 +1,12 @@
 "use client";
 import { useRouter } from "next/navigation";
 
-export default function AddExpenseButton({ classes = "" }) {
+export default function AddExpenseButton({ children, className = "" }) {
   const router = useRouter();
   return (
     <button
       className={`bg-primary text-white rounded-full p-2 px-6
-     flex items-center justify-center h-16 gap-4 ${classes} 
+     flex items-center justify-center h-16 gap-4 ${className} 
       transition-shadow duration-200 ease-in-out hover:shadow-lg`}
       onClick={() => router.push("/new-transaction")}
     >
@@ -24,7 +24,7 @@ export default function AddExpenseButton({ classes = "" }) {
           d="M12 6v6m0 0v6m0-6h6m-6 0H6"
         />
       </svg>
-      <span className="text-sm">Add Transaction</span>
+      <span className="text-sm">{children}</span>
     </button>
   );
 }

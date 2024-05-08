@@ -5,8 +5,9 @@ import { generateText } from "ai";
 export async function POST(req) {
     try {
       const { categories } = await req.json();
+      // const { category } = await req.json();
 
-      const model = openai("gpt-4-turbo");
+      const model = openai(process.env.AI_MODEL);
       const prompt = `
       Take this array of category names and generate best matching emojies for each, 
       return the result in a valid json file, with category name as key and emoji as a value.
@@ -14,6 +15,10 @@ export async function POST(req) {
       Generate as fast as possible.
       generated json must start with "{" and end with "}"
       Here is the array of categories: "${categories}"`;
+      // const prompt = `Generate one best matching emoji for this spending category: 
+      // ${category} if you can't find a matching emoji, generate random emoji.
+      // Return only the emoji in text format. No any other format is allowed. 
+      // Generate as fast as possible.`;
       const result = await generateText({
         model,
         prompt,

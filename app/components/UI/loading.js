@@ -1,7 +1,7 @@
-export default function Loading() {
+export default function Loading({children = "Loading...", className = ""}) {
   return (
-    <div className="min-h-96 flex justify-center items-center">
-      <p className="h-full text-gray-400 text-sm">Loading...</p>
+    <div className={`h-full flex items-center justify-center ${className}`}>
+      <p className="text-gray-400 text-sm ">{children}</p>
     </div>
   );
 }

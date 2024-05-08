@@ -4,6 +4,8 @@ import Button from "./ui/Button";
 import { getCurrentMonthDates } from "../lib/lib";
 import { useContext, useState, useEffect } from "react";
 import { ExpensesCtx } from "../context/expensesContext";
+import AddExpenseButton from "./AddExpenseButton";
+import AddNewButton from "../reoccuring-transactions/components/AddNewButton";
 
 export default function SpendingsHeader() {
   // get current month
@@ -36,7 +38,6 @@ export default function SpendingsHeader() {
   const [selectedYear, setSelectedYear] = useState(currentYear);
   const [options, setOptions] = useState(allMonths);
 
-
   const optionsYears = Array.from(
     { length: currentYear - startYear + 1 },
     (_, i) => {
@@ -49,13 +50,14 @@ export default function SpendingsHeader() {
     (option) => option.value === currentYear
   );
 
-  
   useEffect(() => {
     if (selectedYear === currentYear) {
-      setOptions(allMonths.slice(
-        0,
-        allMonths.findIndex((month) => month.value === currentMonth) + 1
-      ));
+      setOptions(
+        allMonths.slice(
+          0,
+          allMonths.findIndex((month) => month.value === currentMonth) + 1
+        )
+      );
     } else {
       setOptions(allMonths);
     }
@@ -110,44 +112,51 @@ export default function SpendingsHeader() {
   };
 
   return (
-    <header className="py-4 px-6 flex md:items-center gap-4 md:flex-row flex-col items-start">
-      <p className="text-gray-400 text-sm">Showing:</p>
-      <form
-        action=""
-        className="flex justify-start md:items-center gap-5 flex-col sm:flex-row "
-        onSubmit={handleFormSubmit}
-      >
-        <div className="flex gap-4">
-          <Select
-            className="min-w-32"
-            options={options}
-            defaultValue={defaultOption}
-            placeholder={defaultOption.label}
-            name="month"
-            id="month"
-            instanceId="month-select"
-          />
-
-          <Select
-            options={optionsYears}
-            defaultValue={defaultOptionYears}
-            placeholder={defaultOptionYears.label}
-            name="year"
-            id="year"
-            instanceId="year-select"
-            onChange={(selectedOption) => {
-              setSelectedYear(selectedOption.value);
-            }}
-          />
-        </div>
-        <Button
-          loadingManually={loading}
-          variant={"ghost"}
-          className={`gap-4 border border-zinc-300 self-start w-full sm:w-auto h-full`}
+    <header
+      className="py-4 px-6 flex md:items-center gap-4 md:flex-row flex-col
+     items-start justify-between"
+    >
+      <div className="flex md:flex-row md:items-center gap-4 flex-col">
+        <p className="text-gray-400 text-sm">Showing:</p>
+        <form
+          action=""
+          className="flex justify-start md:items-center gap-5 flex-col sm:flex-row"
+          onSubmit={handleFormSubmit}
         >
-          Apply
-        </Button>
-      </form>
+          <div className="flex gap-4">
+            <Select
+              className="min-w-32"
+              options={options}
+              defaultValue={defaultOption}
+              placeholder={defaultOption.label}
+              name="month"
+              id="month"
+              instanceId="month-select"
+            />
+
+            <Select
+              options={optionsYears}
+              defaultValue={defaultOptionYears}
+              placeholder={defaultOptionYears.label}
+              name="year"
+              id="year"
+              instanceId="year-select"
+              onChange={(selectedOption) => {
+                setSelectedYear(selectedOption.value);
+              }}
+            />
+          </div>
+          <Button
+            loadingManually={loading}
+            variant={"ghost"}
+            className={`gap-4 border border-zinc-300 self-start w-full sm:w-auto max-h-full h-9`}
+          >
+            Apply
+          </Button>
+        </form>
+      </div>
+      <AddExpenseButton className="h-full w-30">Add New</AddExpenseButton>
+      {/* <AddNewButton /> */}
     </header>
   );
 }
