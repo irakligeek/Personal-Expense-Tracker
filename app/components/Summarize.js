@@ -1,24 +1,13 @@
 "use client";
-import { IoIosInformationCircleOutline } from "react-icons/io";
 import { ExpensesCtx } from "../context/expensesContext";
-import { useContext, useState, useEffect, useRef } from "react";
+import { useContext, useState, useEffect } from "react";
 import Panel from "./ui/Panel";
-import { userName } from "../lib/authentication/user";
-import {Spinner, LoadingDots} from "./ui/LoadingAnimations";
+import { Spinner } from "./ui/LoadingAnimations";
 
 export default function Summarize() {
-  const { expenses, setExpenses, setSpendingsDate, spendingsDate } =
-    useContext(ExpensesCtx);
+  const { expenses, spendingsDate } = useContext(ExpensesCtx);
   const [summary, setSummary] = useState("");
   const [loading, setLoading] = useState(true);
-  const isFirstLoaded = useState(true);
-
-  useEffect(() => {
-    if (isFirstLoaded.current) {
-      isFirstLoaded.current = false;
-      return;
-    }
-  }, []);
 
   useEffect(() => {
     async function fetchSummary() {
@@ -49,7 +38,8 @@ export default function Summarize() {
     <Panel>
       <div
         //   Add stylish border left to the panel
-        className={`section-padding leading-relaxed bg-blue-200 text-zinc-700 border-l-4 border-blue-500 pl-4`}
+        className={`section-padding leading-relaxed 
+        bg-blue-200 text-zinc-700 border-l-4 border-blue-500 pl-4`}
       >
         <div className="flex flex-row gap-4">
           <div className="relative">
@@ -66,11 +56,11 @@ export default function Summarize() {
               )}
             </h6>
             <div
-              className={`transition-all duration-500 transform origin-top scale-y-0 opacity-0 max-w-full w-fit 
+              className={`transition-all duration-500 overflow-hidden max-w-full w-fit 
                 ${
                   loading === true
-                    ? "scale-y-0 opacity-0 absolute duration-0"
-                    : "relative scale-y-100 opacity-100 duration-500"
+                    ? "h-0 opacity-0 absolute duration-100"
+                    : "relative h-auto opacity-100 duration-500"
                 }`}
             >
               <p className="text-sm leading-relaxed">{summary}</p>

@@ -1,0 +1,53 @@
+[
+  {
+    "_id": "6636a6278943fb4327aefef2",
+    "userId": "ika05010",
+    "amount": 55,
+    "category": "Food & Drinks",
+    "name": "Dete night",
+    "date": "2024-05-04T21:18:31.564Z"
+  },
+  {
+    "_id": "6636663ab90c2e9b10f0c75d",
+    "userId": "ika05010",
+    "amount": 30,
+    "category": "Car",
+    "name": "Gas",
+    "date": "2024-05-04T16:45:46.149Z"
+  },
+  {
+    "_id": "6636621bb90c2e9b10f0c75c",
+    "userId": "ika05010",
+    "amount": 15,
+    "category": "Food",
+    "name": "Just food",
+    "date": "2024-05-04T16:28:11.264Z"
+  },
+  {
+    "_id": "66313fb9aa8ed51c96796d67",
+    "userId": "ika05010",
+    "amount": 111,
+    "category": "Rent",
+    "name": "Rent Monthly",
+    "reoccuringFrequency": "monthly",
+    "date": "2024-05-06T02:14:34.784Z"
+  },
+  {
+    "_id": "6631402faa8ed51c96796d69",
+    "userId": "ika05010",
+    "amount": 820,
+    "category": "Rent",
+    "name": "Rent house two",
+    "reoccuringFrequency": "monthly",
+    "date": "2024-05-06T02:14:34.784Z"
+  },
+  {
+    "_id": "6631418caa8ed51c96796d6b",
+    "userId": "ika05010",
+    "amount": 60,
+    "category": "Utilities",
+    "name": "Internet ",
+    "reoccuringFrequency": "monthly",
+    "date": "2024-05-06T02:14:34.784Z"
+  }
+]

@@ -30,6 +30,8 @@
     "autoprefixer": "^10.0.1",
     "eslint": "^8",
     "eslint-config-next": "14.1.4",
+    "fs": "^0.0.1-security",
+    "openai": "^4.46.1",
     "postcss": "^8",
     "react-loading-icons": "^1.1.0",
     "react-minimal-pie-chart": "^8.4.0",

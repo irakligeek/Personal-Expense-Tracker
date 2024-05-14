@@ -7,12 +7,9 @@ import SpendingLegend from "./components/SpendingLegend";
 import { getCurrentMonthDates } from "./lib/lib";
 import UserSettingsCtx from "./context/userContext";
 import Subheading from "./components/ui/Subheading";
-import AddExpenseButton from "./components/AddExpenseButton";
 import SpendingsHeader from "./components/SpendingsHeader";
 import ExpensesContext from "./context/expensesContext";
 import Summarize from "./components/Summarize";
-import { Suspense } from "react";
-import Loading from "./components/ui/loading";
 
 const base_url = process.env.BASE_URL;
 
